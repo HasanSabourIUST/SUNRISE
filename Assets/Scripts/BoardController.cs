@@ -14,7 +14,8 @@ public class BoardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int[][] neighborNodesOfTile = new int[TILES_COUNT][] {
+        int[][] neighborNodesOfTile = new int[TILES_COUNT][]
+        {
             new int[6] {0, 1, 2, 8, 9, 10 },
             new int[6] {2, 3, 4, 10, 11, 12 },
             new int[6] {4, 5, 6, 12, 13, 14 },
@@ -103,6 +104,92 @@ public class BoardController : MonoBehaviour
             new int[2] {71, 65},
         };
 
+        int[][] neighborNodesOfEdge = new int[EDGES_COUNT][]
+        {
+            new int[2] {0, 1},
+            new int[2] {1, 2},
+            new int[2] {2, 3},
+            new int[2] {3, 4},
+            new int[2] {4, 5},
+            new int[2] {5, 6},
+
+            new int[2] {0, 8},
+            new int[2] {2, 10},
+            new int[2] {4, 12},
+            new int[2] {6, 14},
+
+            new int[2] {7, 8},
+            new int[2] {8, 9},
+            new int[2] {9, 10},
+            new int[2] {10, 11},
+            new int[2] {11, 12},
+            new int[2] {12, 13},
+            new int[2] {13, 14},
+            new int[2] {14, 15},
+
+            new int[2] {7, 17},
+            new int[2] {9, 19},
+            new int[2] {11, 21},
+            new int[2] {13, 23},
+            new int[2] {15, 25},
+
+            new int[2] {16, 17},
+            new int[2] {17, 18},
+            new int[2] {18, 19},
+            new int[2] {19, 20},
+            new int[2] {20, 21},
+            new int[2] {21, 22},
+            new int[2] {22, 23},
+            new int[2] {23, 24},
+            new int[2] {24, 25},
+            new int[2] {25, 26},
+
+            new int[2] {16, 27},
+            new int[2] {18, 29},
+            new int[2] {20, 31},
+            new int[2] {22, 33},
+            new int[2] {24, 35},
+            new int[2] {26, 37},
+
+            new int[2] {27, 28},
+            new int[2] {28, 29},
+            new int[2] {29, 30},
+            new int[2] {30, 31},
+            new int[2] {31, 32},
+            new int[2] {32, 33},
+            new int[2] {33, 34},
+            new int[2] {34, 35},
+            new int[2] {35, 36},
+            new int[2] {36, 37},
+
+            new int[2] {28, 38},
+            new int[2] {30, 40},
+            new int[2] {32, 42},
+            new int[2] {34, 44},
+            new int[2] {36, 46},
+
+            new int[2] {38, 39},
+            new int[2] {39, 40},
+            new int[2] {40, 41},
+            new int[2] {41, 42},
+            new int[2] {42, 43},
+            new int[2] {43, 44},
+            new int[2] {44, 45},
+            new int[2] {45, 46},
+
+            new int[2] {39, 47},
+            new int[2] {41, 49},
+            new int[2] {43, 51},
+            new int[2] {45, 53},
+
+            new int[2] {47, 48},
+            new int[2] {48, 49},
+            new int[2] {49, 50},
+            new int[2] {50, 51},
+            new int[2] {51, 52},
+            new int[2] {52, 53},
+        };
+
         tiles = new TileController[TILES_COUNT];
         nodes = new NodeController[NODES_COUNT];
         edges = new EdgeController[EDGES_COUNT];
@@ -118,6 +205,8 @@ public class BoardController : MonoBehaviour
             tiles[i].nodes = neighborNodesOfTile[i].Select(n => nodes[n]).ToArray();
         for (int i = 0; i < NODES_COUNT; ++i)
             nodes[i].edges = neighborEdgesOfNode[i].Select(e => edges[e]).ToList();
+        for (int i = 0; i < EDGES_COUNT; ++i)
+            edges[i].nodes = neighborNodesOfEdge[i].Select(n => nodes[n]).ToArray();
     }
 
     // Update is called once per frame
