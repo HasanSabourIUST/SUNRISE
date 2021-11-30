@@ -8,9 +8,15 @@ public class BoardController : MonoBehaviour
     public const int TILES_COUNT = 19;
     public const int NODES_COUNT = 54;
     public const int EDGES_COUNT = 72;
+    public TileController tilePrefab;
+    public NodeController nodePrefab;
+    public EdgeController edgePrefab;
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
+    public const float tileLength = 1;
+    public Vector2 diagonalStep = new Vector2(tileLength / 2, tileLength * Mathf.Sqrt(3) / 2);
+    public Vector2 straightStep = new Vector2(tileLength, 0);
     // Start is called before the first frame update
     void Start()
     {
@@ -195,11 +201,20 @@ public class BoardController : MonoBehaviour
         edges = new EdgeController[EDGES_COUNT];
 
         for (int i = 0; i < TILES_COUNT; ++i)
-            tiles[i] = new TileController();
+        {
+            tiles[i] = Instantiate(tilePrefab);
+            tiles[i].transform.parent = transform;
+        }
         for (int i = 0; i < NODES_COUNT; ++i)
-            nodes[i] = new NodeController();
+        {
+            nodes[i] = Instantiate(nodePrefab);
+            nodes[i].transform.parent = transform;
+        }
         for (int i = 0; i < EDGES_COUNT; ++i)
-            edges[i] = new EdgeController();
+        {
+            edges[i] = Instantiate(edgePrefab);
+            edges[i].transform.parent = transform;
+        }
 
         for (int i = 0; i < TILES_COUNT; ++i)
             tiles[i].nodes = neighborNodesOfTile[i].Select(n => nodes[n]).ToArray();
