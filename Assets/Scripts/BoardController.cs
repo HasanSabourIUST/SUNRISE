@@ -376,6 +376,21 @@ public class BoardController : MonoBehaviour
             +5 * diagoanlEdgeStep +0 * straightEdgeStep,
         };
 
+        float[] edgeRotations = new float[EDGES_COUNT]
+        {
+            60, -60, 60, -60, 60, -60,
+            0, 0, 0, 0,
+            60, -60, 60, -60, 60, -60, 60, -60,
+            0, 0, 0, 0, 0,
+            60, -60, 60, -60, 60, -60, 60, -60, 60, -60,
+            0, 0, 0, 0, 0, 0,
+            -60, 60, -60, 60, -60, 60, -60, 60, -60, 60,
+            0, 0, 0, 0, 0,
+            -60, 60, -60, 60, -60, 60, -60, 60,
+            0, 0, 0, 0,
+            -60, 60, -60, 60, -60, 60,
+        };
+
         tiles = new TileController[TILES_COUNT];
         nodes = new NodeController[NODES_COUNT];
         edges = new EdgeController[EDGES_COUNT];
@@ -397,6 +412,7 @@ public class BoardController : MonoBehaviour
             edges[i] = Instantiate(edgePrefab);
             edges[i].transform.parent = transform;
             edges[i].transform.position = edgePositions[i];
+            edges[i].transform.Rotate(0, edgeRotations[i], 0);
         }
 
         for (int i = 0; i < TILES_COUNT; ++i)
