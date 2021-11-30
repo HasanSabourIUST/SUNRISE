@@ -14,9 +14,9 @@ public class BoardController : MonoBehaviour
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
-    public const float tileLength = 1;
-    public Vector2 diagonalStep = new Vector2(tileLength / 2, tileLength * Mathf.Sqrt(3) / 2);
-    public Vector2 straightStep = new Vector2(tileLength, 0);
+    public const float tileLength = 1.1f;
+    Vector3 diagonalStep = new Vector3(tileLength / 2, 0, tileLength * Mathf.Sqrt(3) / 2);
+    Vector3 straightStep = new Vector3(tileLength, 0, 0);
     // Start is called before the first frame update
     void Start()
     {
@@ -195,7 +195,30 @@ public class BoardController : MonoBehaviour
             new int[2] {51, 52},
             new int[2] {52, 53},
         };
-        
+
+        Vector3[] tilePositions = new Vector3[TILES_COUNT]
+        {
+            -2 * diagonalStep +0 * straightStep,
+            -2 * diagonalStep +1 * straightStep,
+            -2 * diagonalStep +2 * straightStep,
+            -1 * diagonalStep -1 * straightStep,
+            -1 * diagonalStep +0 * straightStep,
+            -1 * diagonalStep +1 * straightStep,
+            -1 * diagonalStep +2 * straightStep,
+            +0 * diagonalStep -2 * straightStep,
+            +0 * diagonalStep -1 * straightStep,
+            +0 * diagonalStep +0 * straightStep,
+            +0 * diagonalStep +1 * straightStep,
+            +0 * diagonalStep +2 * straightStep,
+            +1 * diagonalStep -2 * straightStep,
+            +1 * diagonalStep -1 * straightStep,
+            +1 * diagonalStep +0 * straightStep,
+            +1 * diagonalStep +1 * straightStep,
+            +2 * diagonalStep -2 * straightStep,
+            +2 * diagonalStep -1 * straightStep,
+            +2 * diagonalStep +0 * straightStep,
+        };
+
         tiles = new TileController[TILES_COUNT];
         nodes = new NodeController[NODES_COUNT];
         edges = new EdgeController[EDGES_COUNT];
@@ -204,6 +227,7 @@ public class BoardController : MonoBehaviour
         {
             tiles[i] = Instantiate(tilePrefab);
             tiles[i].transform.parent = transform;
+            tiles[i].transform.position = tilePositions[i];
         }
         for (int i = 0; i < NODES_COUNT; ++i)
         {
