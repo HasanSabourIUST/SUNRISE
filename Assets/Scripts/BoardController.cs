@@ -195,7 +195,7 @@ public class BoardController : MonoBehaviour
             new int[2] {51, 52},
             new int[2] {52, 53},
         };
-
+        
         tiles = new TileController[TILES_COUNT];
         nodes = new NodeController[NODES_COUNT];
         edges = new EdgeController[EDGES_COUNT];
