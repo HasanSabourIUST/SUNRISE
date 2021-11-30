@@ -14,9 +14,11 @@ public class BoardController : MonoBehaviour
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
-    public const float tileLength = 1.1f;
-    Vector3 diagonalStep = new Vector3(tileLength / 2, 0, tileLength * Mathf.Sqrt(3) / 2);
-    Vector3 straightStep = new Vector3(tileLength, 0, 0);
+    public const float tileLength = 0.5f;
+    Vector3 diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength * 1.5f);
+    Vector3 straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
+    Vector3 diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength / 2);
+    Vector3 straightNodeStep = new Vector3(0, 0, -tileLength);
     // Start is called before the first frame update
     void Start()
     {
@@ -198,25 +200,92 @@ public class BoardController : MonoBehaviour
 
         Vector3[] tilePositions = new Vector3[TILES_COUNT]
         {
-            -2 * diagonalStep +0 * straightStep,
-            -2 * diagonalStep +1 * straightStep,
-            -2 * diagonalStep +2 * straightStep,
-            -1 * diagonalStep -1 * straightStep,
-            -1 * diagonalStep +0 * straightStep,
-            -1 * diagonalStep +1 * straightStep,
-            -1 * diagonalStep +2 * straightStep,
-            +0 * diagonalStep -2 * straightStep,
-            +0 * diagonalStep -1 * straightStep,
-            +0 * diagonalStep +0 * straightStep,
-            +0 * diagonalStep +1 * straightStep,
-            +0 * diagonalStep +2 * straightStep,
-            +1 * diagonalStep -2 * straightStep,
-            +1 * diagonalStep -1 * straightStep,
-            +1 * diagonalStep +0 * straightStep,
-            +1 * diagonalStep +1 * straightStep,
-            +2 * diagonalStep -2 * straightStep,
-            +2 * diagonalStep -1 * straightStep,
-            +2 * diagonalStep +0 * straightStep,
+            -2 * diagonalTileStep +0 * straightTileStep,
+            -2 * diagonalTileStep +1 * straightTileStep,
+            -2 * diagonalTileStep +2 * straightTileStep,
+
+            -1 * diagonalTileStep -1 * straightTileStep,
+            -1 * diagonalTileStep +0 * straightTileStep,
+            -1 * diagonalTileStep +1 * straightTileStep,
+            -1 * diagonalTileStep +2 * straightTileStep,
+
+            +0 * diagonalTileStep -2 * straightTileStep,
+            +0 * diagonalTileStep -1 * straightTileStep,
+            +0 * diagonalTileStep +0 * straightTileStep,
+            +0 * diagonalTileStep +1 * straightTileStep,
+            +0 * diagonalTileStep +2 * straightTileStep,
+
+            +1 * diagonalTileStep -2 * straightTileStep,
+            +1 * diagonalTileStep -1 * straightTileStep,
+            +1 * diagonalTileStep +0 * straightTileStep,
+            +1 * diagonalTileStep +1 * straightTileStep,
+            
+            +2 * diagonalTileStep -2 * straightTileStep,
+            +2 * diagonalTileStep -1 * straightTileStep,
+            +2 * diagonalTileStep +0 * straightTileStep,
+        };
+
+        Vector3[] nodePositions = new Vector3[NODES_COUNT]
+        {
+            -3 * diagonalNodeStep -2 * straightNodeStep,
+            -2 * diagonalNodeStep -3 * straightNodeStep,
+            -1 * diagonalNodeStep -3 * straightNodeStep,
+            +0 * diagonalNodeStep -4 * straightNodeStep,
+            +1 * diagonalNodeStep -4 * straightNodeStep,
+            +2 * diagonalNodeStep -5 * straightNodeStep,
+            +3 * diagonalNodeStep -5 * straightNodeStep,
+
+            -4 * diagonalNodeStep +0 * straightNodeStep,
+            -3 * diagonalNodeStep -1 * straightNodeStep,
+            -2 * diagonalNodeStep -1 * straightNodeStep,
+            -1 * diagonalNodeStep -2 * straightNodeStep,
+            +0 * diagonalNodeStep -2 * straightNodeStep,
+            +1 * diagonalNodeStep -3 * straightNodeStep,
+            +2 * diagonalNodeStep -3 * straightNodeStep,
+            +3 * diagonalNodeStep -4 * straightNodeStep,
+            +4 * diagonalNodeStep -4 * straightNodeStep,
+
+            -5 * diagonalNodeStep +2 * straightNodeStep,
+            -4 * diagonalNodeStep +1 * straightNodeStep,
+            -3 * diagonalNodeStep +1 * straightNodeStep,
+            -2 * diagonalNodeStep +0 * straightNodeStep,
+            -1 * diagonalNodeStep +0 * straightNodeStep,
+            +0 * diagonalNodeStep -1 * straightNodeStep,
+            +1 * diagonalNodeStep -1 * straightNodeStep,
+            +2 * diagonalNodeStep -2 * straightNodeStep,
+            +3 * diagonalNodeStep -2 * straightNodeStep,
+            +4 * diagonalNodeStep -3 * straightNodeStep,
+            +5 * diagonalNodeStep -3 * straightNodeStep,
+
+            -5 * diagonalNodeStep +3 * straightNodeStep,
+            -4 * diagonalNodeStep +3 * straightNodeStep,
+            -3 * diagonalNodeStep +2 * straightNodeStep,
+            -2 * diagonalNodeStep +2 * straightNodeStep,
+            -1 * diagonalNodeStep +1 * straightNodeStep,
+            +0 * diagonalNodeStep +1 * straightNodeStep,
+            +1 * diagonalNodeStep +0 * straightNodeStep,
+            +2 * diagonalNodeStep +0 * straightNodeStep,
+            +3 * diagonalNodeStep -1 * straightNodeStep,
+            +4 * diagonalNodeStep -1 * straightNodeStep,
+            +5 * diagonalNodeStep -2 * straightNodeStep,
+
+            -4 * diagonalNodeStep +4 * straightNodeStep,
+            -3 * diagonalNodeStep +4 * straightNodeStep,
+            -2 * diagonalNodeStep +3 * straightNodeStep,
+            -1 * diagonalNodeStep +3 * straightNodeStep,
+            +0 * diagonalNodeStep +2 * straightNodeStep,
+            +1 * diagonalNodeStep +2 * straightNodeStep,
+            +2 * diagonalNodeStep +1 * straightNodeStep,
+            +3 * diagonalNodeStep +1 * straightNodeStep,
+            +4 * diagonalNodeStep +0 * straightNodeStep,
+
+            -3 * diagonalNodeStep +5 * straightNodeStep,
+            -2 * diagonalNodeStep +5 * straightNodeStep,
+            -1 * diagonalNodeStep +4 * straightNodeStep,
+            +0 * diagonalNodeStep +4 * straightNodeStep,
+            +1 * diagonalNodeStep +3 * straightNodeStep,
+            +2 * diagonalNodeStep +3 * straightNodeStep,
+            +3 * diagonalNodeStep +2 * straightNodeStep,
         };
 
         tiles = new TileController[TILES_COUNT];
@@ -233,6 +302,7 @@ public class BoardController : MonoBehaviour
         {
             nodes[i] = Instantiate(nodePrefab);
             nodes[i].transform.parent = transform;
+            nodes[i].transform.position = nodePositions[i];
         }
         for (int i = 0; i < EDGES_COUNT; ++i)
         {
