@@ -15,10 +15,12 @@ public class BoardController : MonoBehaviour
     public NodeController[] nodes;
     public EdgeController[] edges;
     public const float tileLength = 0.5f;
-    Vector3 diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength * 1.5f);
-    Vector3 straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
-    Vector3 diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength / 2);
-    Vector3 straightNodeStep = new Vector3(0, 0, -tileLength);
+    static Vector3 diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength * 1.5f);
+    static Vector3 straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
+    static Vector3 diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength / 2);
+    static Vector3 straightNodeStep = new Vector3(0, 0, -tileLength);
+    static Vector3 diagoanlEdgeStep = diagonalTileStep / 2;
+    static Vector3 straightEdgeStep = straightTileStep / 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -288,6 +290,92 @@ public class BoardController : MonoBehaviour
             +3 * diagonalNodeStep +2 * straightNodeStep,
         };
 
+        Vector3[] edgePositions = new Vector3[EDGES_COUNT]
+        {
+            -5 * diagoanlEdgeStep +0 * straightEdgeStep,
+            -5 * diagoanlEdgeStep +1 * straightEdgeStep,
+            -5 * diagoanlEdgeStep +2 * straightEdgeStep,
+            -5 * diagoanlEdgeStep +3 * straightEdgeStep,
+            -5 * diagoanlEdgeStep +4 * straightEdgeStep,
+            -5 * diagoanlEdgeStep +5 * straightEdgeStep,
+
+            -4 * diagoanlEdgeStep -1 * straightEdgeStep,
+            -4 * diagoanlEdgeStep +1 * straightEdgeStep,
+            -4 * diagoanlEdgeStep +3 * straightEdgeStep,
+            -4 * diagoanlEdgeStep +5 * straightEdgeStep,
+
+            -3 * diagoanlEdgeStep -2 * straightEdgeStep,
+            -3 * diagoanlEdgeStep -1 * straightEdgeStep,
+            -3 * diagoanlEdgeStep -0 * straightEdgeStep,
+            -3 * diagoanlEdgeStep +1 * straightEdgeStep,
+            -3 * diagoanlEdgeStep +2 * straightEdgeStep,
+            -3 * diagoanlEdgeStep +3 * straightEdgeStep,
+            -3 * diagoanlEdgeStep +4 * straightEdgeStep,
+            -3 * diagoanlEdgeStep +5 * straightEdgeStep,
+
+            -2 * diagoanlEdgeStep -3 * straightEdgeStep,
+            -2 * diagoanlEdgeStep -1 * straightEdgeStep,
+            -2 * diagoanlEdgeStep +1 * straightEdgeStep,
+            -2 * diagoanlEdgeStep +3 * straightEdgeStep,
+            -2 * diagoanlEdgeStep +5 * straightEdgeStep,
+
+            -1 * diagoanlEdgeStep -4 * straightEdgeStep,
+            -1 * diagoanlEdgeStep -3 * straightEdgeStep,
+            -1 * diagoanlEdgeStep -2 * straightEdgeStep,
+            -1 * diagoanlEdgeStep -1 * straightEdgeStep,
+            -1 * diagoanlEdgeStep +0 * straightEdgeStep,
+            -1 * diagoanlEdgeStep +1 * straightEdgeStep,
+            -1 * diagoanlEdgeStep +2 * straightEdgeStep,
+            -1 * diagoanlEdgeStep +3 * straightEdgeStep,
+            -1 * diagoanlEdgeStep +4 * straightEdgeStep,
+            -1 * diagoanlEdgeStep +5 * straightEdgeStep,
+
+            +0 * diagoanlEdgeStep -5 * straightEdgeStep,
+            +0 * diagoanlEdgeStep -3 * straightEdgeStep,
+            +0 * diagoanlEdgeStep -1 * straightEdgeStep,
+            +0 * diagoanlEdgeStep +1 * straightEdgeStep,
+            +0 * diagoanlEdgeStep +3 * straightEdgeStep,
+            +0 * diagoanlEdgeStep +5 * straightEdgeStep,
+
+            +1 * diagoanlEdgeStep -5 * straightEdgeStep,
+            +1 * diagoanlEdgeStep -4 * straightEdgeStep,
+            +1 * diagoanlEdgeStep -3 * straightEdgeStep,
+            +1 * diagoanlEdgeStep -2 * straightEdgeStep,
+            +1 * diagoanlEdgeStep -1 * straightEdgeStep,
+            +1 * diagoanlEdgeStep +0 * straightEdgeStep,
+            +1 * diagoanlEdgeStep +1 * straightEdgeStep,
+            +1 * diagoanlEdgeStep +2 * straightEdgeStep,
+            +1 * diagoanlEdgeStep +3 * straightEdgeStep,
+            +1 * diagoanlEdgeStep +4 * straightEdgeStep,
+
+            +2 * diagoanlEdgeStep -5 * straightEdgeStep,
+            +2 * diagoanlEdgeStep -3 * straightEdgeStep,
+            +2 * diagoanlEdgeStep -1 * straightEdgeStep,
+            +2 * diagoanlEdgeStep +1 * straightEdgeStep,
+            +2 * diagoanlEdgeStep +3 * straightEdgeStep,
+
+            +3 * diagoanlEdgeStep -5 * straightEdgeStep,
+            +3 * diagoanlEdgeStep -4 * straightEdgeStep,
+            +3 * diagoanlEdgeStep -3 * straightEdgeStep,
+            +3 * diagoanlEdgeStep -2 * straightEdgeStep,
+            +3 * diagoanlEdgeStep -1 * straightEdgeStep,
+            +3 * diagoanlEdgeStep +0 * straightEdgeStep,
+            +3 * diagoanlEdgeStep +1 * straightEdgeStep,
+            +3 * diagoanlEdgeStep +2 * straightEdgeStep,
+
+            +4 * diagoanlEdgeStep -5 * straightEdgeStep,
+            +4 * diagoanlEdgeStep -3 * straightEdgeStep,
+            +4 * diagoanlEdgeStep -1 * straightEdgeStep,
+            +4 * diagoanlEdgeStep +1 * straightEdgeStep,
+
+            +5 * diagoanlEdgeStep -5 * straightEdgeStep,
+            +5 * diagoanlEdgeStep -4 * straightEdgeStep,
+            +5 * diagoanlEdgeStep -3 * straightEdgeStep,
+            +5 * diagoanlEdgeStep -2 * straightEdgeStep,
+            +5 * diagoanlEdgeStep -1 * straightEdgeStep,
+            +5 * diagoanlEdgeStep +0 * straightEdgeStep,
+        };
+
         tiles = new TileController[TILES_COUNT];
         nodes = new NodeController[NODES_COUNT];
         edges = new EdgeController[EDGES_COUNT];
@@ -308,6 +396,7 @@ public class BoardController : MonoBehaviour
         {
             edges[i] = Instantiate(edgePrefab);
             edges[i].transform.parent = transform;
+            edges[i].transform.position = edgePositions[i];
         }
 
         for (int i = 0; i < TILES_COUNT; ++i)
