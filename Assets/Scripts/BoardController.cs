@@ -15,10 +15,10 @@ public class BoardController : MonoBehaviour
     public NodeController[] nodes;
     public EdgeController[] edges;
     public const float tileLength = 0.5f;
-    static Vector3 diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength * 1.5f);
+    static Vector3 diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength * 1.5f, 0);
     static Vector3 straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
-    static Vector3 diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, 0, -tileLength / 2);
-    static Vector3 straightNodeStep = new Vector3(0, 0, -tileLength);
+    static Vector3 diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength / 2, 0);
+    static Vector3 straightNodeStep = new Vector3(0, -tileLength, 0);
     static Vector3 diagoanlEdgeStep = diagonalTileStep / 2;
     static Vector3 straightEdgeStep = straightTileStep / 2;
     // Start is called before the first frame update
@@ -378,17 +378,17 @@ public class BoardController : MonoBehaviour
 
         float[] edgeRotations = new float[EDGES_COUNT]
         {
-            60, -60, 60, -60, 60, -60,
-            0, 0, 0, 0,
-            60, -60, 60, -60, 60, -60, 60, -60,
-            0, 0, 0, 0, 0,
-            60, -60, 60, -60, 60, -60, 60, -60, 60, -60,
-            0, 0, 0, 0, 0, 0,
-            -60, 60, -60, 60, -60, 60, -60, 60, -60, 60,
-            0, 0, 0, 0, 0,
-            -60, 60, -60, 60, -60, 60, -60, 60,
-            0, 0, 0, 0,
             -60, 60, -60, 60, -60, 60,
+            0, 0, 0, 0,
+            -60, 60, -60, 60, -60, 60, -60, 60,
+            0, 0, 0, 0, 0,
+            -60, 60, -60, 60, -60, 60, -60, 60, -60, 60,
+            0, 0, 0, 0, 0, 0,
+            60, -60, 60, -60, 60, -60, 60, -60, 60, -60,
+            0, 0, 0, 0, 0,
+            60, -60, 60, -60, 60, -60, 60, -60,
+            0, 0, 0, 0,
+            60, -60, 60, -60, 60, -60,
         };
 
         tiles = new TileController[TILES_COUNT];
@@ -412,7 +412,7 @@ public class BoardController : MonoBehaviour
             edges[i] = Instantiate(edgePrefab);
             edges[i].transform.parent = transform;
             edges[i].transform.position = edgePositions[i];
-            edges[i].transform.Rotate(0, edgeRotations[i], 0);
+            edges[i].transform.Rotate(0, 0, edgeRotations[i]);
         }
 
         for (int i = 0; i < TILES_COUNT; ++i)
