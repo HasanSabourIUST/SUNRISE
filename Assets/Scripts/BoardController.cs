@@ -399,7 +399,7 @@ public class BoardController : MonoBehaviour
         {
             tiles[i] = Instantiate(tilePrefab);
             tiles[i].transform.parent = transform;
-            tiles[i].transform.position = tilePositions[i];
+            tiles[i].transform.position = tilePositions[i] + new Vector3(0, 0, 2);
         }
         for (int i = 0; i < NODES_COUNT; ++i)
         {
@@ -411,7 +411,7 @@ public class BoardController : MonoBehaviour
         {
             edges[i] = Instantiate(edgePrefab);
             edges[i].transform.parent = transform;
-            edges[i].transform.position = edgePositions[i];
+            edges[i].transform.position = edgePositions[i] + new Vector3(0, 0, 1);
             edges[i].transform.Rotate(0, 0, edgeRotations[i]);
         }
 
