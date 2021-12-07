@@ -19,6 +19,7 @@ public class BoardController : MonoBehaviour
     public NodeController[] nodes;
     public EdgeController[] edges;
     public float tileLength;
+    private Dictionary<int, List<TileController>> tilesByNumber;
     Vector3 diagonalTileStep;
     Vector3 straightTileStep;
     Vector3 diagonalNodeStep;
@@ -28,6 +29,9 @@ public class BoardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tilesByNumber = new Dictionary<int, List<TileController>>();
+        for (int i = 2; i <= 12; ++i)
+            tilesByNumber.Add(i, new List<TileController>());
         LoadSteps();
 
         int[][] neighborNodesOfTile = new int[TILES_COUNT][]
@@ -437,8 +441,9 @@ public class BoardController : MonoBehaviour
         {
             tiles[i] = Instantiate(tilePrefab);
             tiles[i].type = defaultTileTypes[i];
+            tilesByNumber[defaultTileNumbers[i]].Add(tiles[i]);
             tiles[i].transform.parent = transform;
-            var tileTypeIdx = (int)tiles[i].type;
+            int tileTypeIdx = (int)tiles[i].type;
             var tileSprite = Instantiate(tileSpritePrefabs[tileTypeIdx]);
             tileSprite.transform.parent = tiles[i].transform;
             tiles[i].transform.position = tilePositions[i] + new Vector3(0, 0, 2);
@@ -463,6 +468,11 @@ public class BoardController : MonoBehaviour
             nodes[i].edges = neighborEdgesOfNode[i].Select(e => edges[e]).ToList();
         for (int i = 0; i < EDGES_COUNT; ++i)
             edges[i].nodes = neighborNodesOfEdge[i].Select(n => nodes[n]).ToArray();
+
+        for (int i = 2; i <= 12; ++i)
+        {
+            print($"{i}: {tilesByNumber[i].Count}");
+        }
     }
 
     private void LoadSteps()
