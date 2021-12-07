@@ -420,6 +420,15 @@ public class BoardController : MonoBehaviour
             TileType.Field,
         };
 
+        int[] defaultTileNumbers = new int[TILES_COUNT]
+        {
+            10, 2, 9,
+            12, 6, 4, 10,
+            9, 11, 7, 3, 8,
+            8, 3, 4, 5,
+            5, 6, 11,
+        };
+
         tiles = new TileController[TILES_COUNT];
         nodes = new NodeController[NODES_COUNT];
         edges = new EdgeController[EDGES_COUNT];
