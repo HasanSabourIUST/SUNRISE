@@ -397,6 +397,29 @@ public class BoardController : MonoBehaviour
             60, -60, 60, -60, 60, -60,
         };
 
+        TileType[] defaultTileTypes = new TileType[TILES_COUNT]
+        {
+            TileType.Mountain,
+            TileType.Field,
+            TileType.Forest,
+            TileType.Farm,
+            TileType.ClayHill,
+            TileType.Field,
+            TileType.ClayHill,
+            TileType.Farm,
+            TileType.Forest,
+            TileType.Desert,
+            TileType.Forest,
+            TileType.Mountain,
+            TileType.Forest,
+            TileType.Mountain,
+            TileType.Farm,
+            TileType.Field,
+            TileType.ClayHill,
+            TileType.Farm,
+            TileType.Field,
+        };
+
         tiles = new TileController[TILES_COUNT];
         nodes = new NodeController[NODES_COUNT];
         edges = new EdgeController[EDGES_COUNT];
@@ -404,6 +427,7 @@ public class BoardController : MonoBehaviour
         for (int i = 0; i < TILES_COUNT; ++i)
         {
             tiles[i] = Instantiate(tilePrefab);
+            tiles[i].type = defaultTileTypes[i];
             tiles[i].transform.parent = transform;
             var tileTypeIdx = (int)tiles[i].type;
             var tileSprite = Instantiate(tileSpritePrefabs[tileTypeIdx]);
