@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TileController : MonoBehaviour
 {
-    public enum TileType { Forest, ClayHill, Field, Farm, Mountain, Desert}
+    public enum TileType { ClayHill, Desert, Farm, Field, Forest, Mountain}
     public TileType type;
     public NodeController[] nodes;
     // Start is called before the first frame update

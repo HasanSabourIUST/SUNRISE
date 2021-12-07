@@ -331,6 +331,13 @@ MonoBehaviour:
     type: 3}
   edgePrefab: {fileID: 3520300519919236451, guid: d4517ea860f5f444cb824db3b5d0e9ef,
     type: 3}
+  tileSpritePrefabs:
+  - {fileID: 6120231397349256555, guid: fad021dbe1ac0df4c84a31cbd4350147, type: 3}
+  - {fileID: 6120231397349256555, guid: 5ee09861620cb6b4cbd37049c13c4cee, type: 3}
+  - {fileID: 6120231397349256555, guid: 2ebfd8b19f86a774abf58913231c4fa0, type: 3}
+  - {fileID: 6120231397349256555, guid: 458fc66ab8dbe194485780e7c0f18959, type: 3}
+  - {fileID: 6120231397349256555, guid: 391f9275a2ed64849b7ef86134444d01, type: 3}
+  - {fileID: 6120231397349256555, guid: 4557e31b56e0ef4418b0f941bf484efe, type: 3}
   tiles: []
   nodes: []
   edges: []

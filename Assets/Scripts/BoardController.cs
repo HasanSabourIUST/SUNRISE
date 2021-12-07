@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static TileController;
 
 public class BoardController : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class BoardController : MonoBehaviour
     public TileController tilePrefab;
     public NodeController nodePrefab;
     public EdgeController edgePrefab;
+    // Sprite prefabs should be in the following order:
+    // ClayHill, Desert, Farm, Field, Forest, Mountain
+    public GameObject[] tileSpritePrefabs;
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
@@ -399,6 +403,9 @@ public class BoardController : MonoBehaviour
         {
             tiles[i] = Instantiate(tilePrefab);
             tiles[i].transform.parent = transform;
+            var tileTypeIdx = (int)tiles[i].type;
+            var tileSprite = Instantiate(tileSpritePrefabs[tileTypeIdx]);
+            tileSprite.transform.parent = tiles[i].transform;
             tiles[i].transform.position = tilePositions[i] + new Vector3(0, 0, 2);
         }
         for (int i = 0; i < NODES_COUNT; ++i)
