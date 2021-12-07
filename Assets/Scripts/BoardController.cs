@@ -17,6 +17,9 @@ public class BoardController : MonoBehaviour
     public GameObject[] tileSpritePrefabs;
     // Numbers 2 through 12 (7 should be null)
     public GameObject[] tileNumberPrefabs;
+    // The prefabs should be in the following order:
+    // None (null), Red, Green, Blue, Orange
+    public GameObject[] roadPrefabs;
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
@@ -468,6 +471,12 @@ public class BoardController : MonoBehaviour
         {
             edges[i] = Instantiate(edgePrefab);
             edges[i].transform.parent = transform;
+            int edgeColorIdx = (int)edges[i].color;
+            if (roadPrefabs[edgeColorIdx] != null)
+            {
+                var roadSprite = Instantiate(roadPrefabs[edgeColorIdx]);
+                roadSprite.transform.parent = edges[i].transform;
+            }
             edges[i].transform.position = edgePositions[i] + new Vector3(0, 0, 1);
             edges[i].transform.Rotate(0, 0, edgeRotations[i]);
         }

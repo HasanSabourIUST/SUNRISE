@@ -350,6 +350,12 @@ MonoBehaviour:
   - {fileID: 4847735702219789223, guid: f2f251a3b28bb834290eb24c9046b47d, type: 3}
   - {fileID: 3571413505057330437, guid: 0052be7b5de6f3b4791652b4203314b2, type: 3}
   - {fileID: 4279219261564492029, guid: 2e0ab87c7082a334491bf3bca7bf0400, type: 3}
+  roadPrefabs:
+  - {fileID: 0}
+  - {fileID: 3520300519919236450, guid: 98047e9e0333a0a45a314c766d65b787, type: 3}
+  - {fileID: 3520300519919236450, guid: 799afcd614194bc409167363e1cdbb66, type: 3}
+  - {fileID: 3520300519919236450, guid: 44d316018a159ba4ab2feb7b5e0f1e81, type: 3}
+  - {fileID: 3520300519919236450, guid: 1082f0d5a3f728f48a13998cc39d5d2d, type: 3}
   tiles: []
   nodes: []
   edges: []
