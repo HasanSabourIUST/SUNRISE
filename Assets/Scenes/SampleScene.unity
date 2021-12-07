@@ -338,6 +338,18 @@ MonoBehaviour:
   - {fileID: 6120231397349256555, guid: 458fc66ab8dbe194485780e7c0f18959, type: 3}
   - {fileID: 6120231397349256555, guid: 391f9275a2ed64849b7ef86134444d01, type: 3}
   - {fileID: 6120231397349256555, guid: 4557e31b56e0ef4418b0f941bf484efe, type: 3}
+  tileNumberPrefabs:
+  - {fileID: 3597019006836454770, guid: 8880fcd1fc093b04295b9d618915d6c6, type: 3}
+  - {fileID: 543855714620528506, guid: 096a722bca71b63488114c07bff45614, type: 3}
+  - {fileID: 2622548695643852882, guid: a1fc44230de618e4bb2aeafd5e024b94, type: 3}
+  - {fileID: 7555337284226114861, guid: e115d70735d0eec4bac9d7d67773a1d5, type: 3}
+  - {fileID: 7083216982848741927, guid: c8dfdfa19767c2549875280577bb248c, type: 3}
+  - {fileID: 0}
+  - {fileID: 4696874197790556036, guid: cd0e127dfdad53e4ebffd97193dd133e, type: 3}
+  - {fileID: 1125521170250805555, guid: 8125f7670dca69c4892094c56d288237, type: 3}
+  - {fileID: 4847735702219789223, guid: f2f251a3b28bb834290eb24c9046b47d, type: 3}
+  - {fileID: 3571413505057330437, guid: 0052be7b5de6f3b4791652b4203314b2, type: 3}
+  - {fileID: 4279219261564492029, guid: 2e0ab87c7082a334491bf3bca7bf0400, type: 3}
   tiles: []
   nodes: []
   edges: []

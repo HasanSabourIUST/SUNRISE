@@ -15,6 +15,8 @@ public class BoardController : MonoBehaviour
     // Sprite prefabs should be in the following order:
     // ClayHill, Desert, Farm, Field, Forest, Mountain
     public GameObject[] tileSpritePrefabs;
+    // Numbers 2 through 12 (7 should be null)
+    public GameObject[] tileNumberPrefabs;
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
@@ -446,6 +448,14 @@ public class BoardController : MonoBehaviour
             int tileTypeIdx = (int)tiles[i].type;
             var tileSprite = Instantiate(tileSpritePrefabs[tileTypeIdx]);
             tileSprite.transform.parent = tiles[i].transform;
+            int tileNumberIdx = defaultTileNumbers[i] - 2;
+            if (tileNumberPrefabs[tileNumberIdx] != null)
+            {
+                var numberSprite = Instantiate(tileNumberPrefabs[tileNumberIdx]);
+                numberSprite.transform.parent = tiles[i].transform;
+                numberSprite.transform.position = new Vector3(0, -0.4f, -1);
+                numberSprite.transform.localScale = new Vector3(0.3f, 0.3f, 1);
+            }
             tiles[i].transform.position = tilePositions[i] + new Vector3(0, 0, 2);
         }
         for (int i = 0; i < NODES_COUNT; ++i)
