@@ -18,16 +18,18 @@ public class BoardController : MonoBehaviour
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
-    public const float tileLength = 0.5f;
-    static Vector3 diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength * 1.5f, 0);
-    static Vector3 straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
-    static Vector3 diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength / 2, 0);
-    static Vector3 straightNodeStep = new Vector3(0, -tileLength, 0);
-    static Vector3 diagoanlEdgeStep = diagonalTileStep / 2;
-    static Vector3 straightEdgeStep = straightTileStep / 2;
+    public float tileLength;
+    Vector3 diagonalTileStep;
+    Vector3 straightTileStep;
+    Vector3 diagonalNodeStep;
+    Vector3 straightNodeStep;
+    Vector3 diagoanlEdgeStep;
+    Vector3 straightEdgeStep;
     // Start is called before the first frame update
     void Start()
     {
+        LoadSteps();
+
         int[][] neighborNodesOfTile = new int[TILES_COUNT][]
         {
             new int[6] {0, 1, 2, 8, 9, 10 },
@@ -428,6 +430,16 @@ public class BoardController : MonoBehaviour
             nodes[i].edges = neighborEdgesOfNode[i].Select(e => edges[e]).ToList();
         for (int i = 0; i < EDGES_COUNT; ++i)
             edges[i].nodes = neighborNodesOfEdge[i].Select(n => nodes[n]).ToArray();
+    }
+
+    private void LoadSteps()
+    {
+        diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength * 1.5f, 0);
+        straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
+        diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength / 2, 0);
+        straightNodeStep = new Vector3(0, -tileLength, 0);
+        diagoanlEdgeStep = diagonalTileStep / 2;
+        straightEdgeStep = straightTileStep / 2;
     }
 
     // Update is called once per frame
