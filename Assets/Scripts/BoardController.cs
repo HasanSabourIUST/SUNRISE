@@ -27,19 +27,24 @@ public class BoardController : MonoBehaviour
     public EdgeController[] edges;
     public float tileLength;
     private Dictionary<int, List<TileController>> tilesByNumber;
-    Vector3 diagonalTileStep;
-    Vector3 straightTileStep;
-    Vector3 diagonalNodeStep;
-    Vector3 straightNodeStep;
-    Vector3 diagoanlEdgeStep;
-    Vector3 straightEdgeStep;
     // Start is called before the first frame update
     void Start()
+    {
+        LoadBoard();
+    }
+
+    private void LoadBoard()
     {
         tilesByNumber = new Dictionary<int, List<TileController>>();
         for (int i = 2; i <= 12; ++i)
             tilesByNumber.Add(i, new List<TileController>());
-        LoadSteps();
+
+        Vector3 diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength * 1.5f, 0);
+        Vector3 straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
+        Vector3 diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength / 2, 0);
+        Vector3 straightNodeStep = new Vector3(0, -tileLength, 0);
+        Vector3 diagoanlEdgeStep = diagonalTileStep / 2;
+        Vector3 straightEdgeStep = straightTileStep / 2;
 
         int[][] neighborNodesOfTile = new int[TILES_COUNT][]
         {
@@ -238,7 +243,7 @@ public class BoardController : MonoBehaviour
             +1 * diagonalTileStep -1 * straightTileStep,
             +1 * diagonalTileStep +0 * straightTileStep,
             +1 * diagonalTileStep +1 * straightTileStep,
-            
+
             +2 * diagonalTileStep -2 * straightTileStep,
             +2 * diagonalTileStep -1 * straightTileStep,
             +2 * diagonalTileStep +0 * straightTileStep,
@@ -499,21 +504,6 @@ public class BoardController : MonoBehaviour
             nodes[i].edges = neighborEdgesOfNode[i].Select(e => edges[e]).ToList();
         for (int i = 0; i < EDGES_COUNT; ++i)
             edges[i].nodes = neighborNodesOfEdge[i].Select(n => nodes[n]).ToArray();
-
-        for (int i = 2; i <= 12; ++i)
-        {
-            print($"{i}: {tilesByNumber[i].Count}");
-        }
-    }
-
-    private void LoadSteps()
-    {
-        diagonalTileStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength * 1.5f, 0);
-        straightTileStep = new Vector3(tileLength * Mathf.Sqrt(3), 0, 0);
-        diagonalNodeStep = new Vector3(tileLength * Mathf.Sqrt(3) / 2, -tileLength / 2, 0);
-        straightNodeStep = new Vector3(0, -tileLength, 0);
-        diagoanlEdgeStep = diagonalTileStep / 2;
-        straightEdgeStep = straightTileStep / 2;
     }
 
     // Update is called once per frame
