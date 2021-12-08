@@ -20,6 +20,8 @@ public class BoardController : MonoBehaviour
     // The prefabs should be in the following order:
     // None (null), Red, Green, Blue, Orange
     public GameObject[] roadPrefabs;
+    public GameObject[] settlementPrefabs;
+    public GameObject[] cityPrefabs;
     public TileController[] tiles;
     public NodeController[] nodes;
     public EdgeController[] edges;
@@ -465,6 +467,16 @@ public class BoardController : MonoBehaviour
         {
             nodes[i] = Instantiate(nodePrefab);
             nodes[i].transform.parent = transform;
+            if (nodes[i].color != NodeController.PlayerColor.None)
+            {
+                int nodeColorIdx = (int)nodes[i].color;
+                GameObject buildingSprite = null;
+                if (nodes[i].buildingType == NodeController.BuildingType.Settlement)
+                    buildingSprite = Instantiate(settlementPrefabs[nodeColorIdx]);
+                else
+                    buildingSprite = Instantiate(cityPrefabs[nodeColorIdx]);
+                buildingSprite.transform.parent = nodes[i].transform;
+            }
             nodes[i].transform.position = nodePositions[i];
         }
         for (int i = 0; i < EDGES_COUNT; ++i)
