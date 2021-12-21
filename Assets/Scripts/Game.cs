@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Game : MonoBehaviour
@@ -123,7 +124,7 @@ public class Game : MonoBehaviour
         }
         return true;
     }
-    bool PlaceBuilding(Collider2D collider, BuildingType buildingType)
+    NodeController PlaceBuilding(Collider2D collider, BuildingType buildingType)
     {
         foreach (var node in board.nodes)
         {
@@ -135,7 +136,7 @@ public class Game : MonoBehaviour
                     {
                         node.color = currentPlayer;
                         board.AddSettlement(node);
-                        return true;
+                        return node;
                     }
                 }
                 else if (buildingType == BuildingType.City)
@@ -143,13 +144,13 @@ public class Game : MonoBehaviour
                     if (node.color == currentPlayer && node.buildingType == BuildingType.Settlement)
                     {
                         board.AddCity(node);
-                        return true;
+                        return node;
                     }
                 }
                 break;
             }
         }
-        return false;
+        return null;
     }
     bool PlaceRoad(Collider2D collider)
     {
@@ -168,6 +169,42 @@ public class Game : MonoBehaviour
         }
         return false;
     }
+    void GiveResourceToPlayer(Player player, ResourceType resourceType, int count)
+    {
+        if (resources[resourceType] <= count)
+        {
+            player.resources[resourceType] += resources[resourceType];
+            resources[resourceType] = 0;
+        }
+        else
+        {
+            player.resources[resourceType] += count;
+            resources[resourceType] -= count;
+        }
+    }
+    void GatherResourcesOnSetup(NodeController node)
+    {
+        foreach (var tile in board.tiles)
+        {
+            if (tile.nodes.Contains(node))
+            {
+                GiveResourceToPlayer(players[currentPlayer], ResourceFrom(tile.type), 1);
+            }
+        }
+    }
+    void GatherResources(TileController tile)
+    {
+        foreach (var node in tile.nodes)
+        {
+            if (node.color != PlayerColor.None)
+            {
+                if (node.buildingType == BuildingType.Settlement)
+                    GiveResourceToPlayer(players[node.color], ResourceFrom(tile.type), 1);
+                else if (node.buildingType == BuildingType.City)
+                    GiveResourceToPlayer(players[node.color], ResourceFrom(tile.type), 2);
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -179,7 +216,8 @@ public class Game : MonoBehaviour
             {
                 if (state == State.PlaceSettlement)
                 {
-                    if (PlaceBuilding(hit.collider, BuildingType.Settlement))
+                    var node = PlaceBuilding(hit.collider, BuildingType.Settlement);
+                    if (node != null)
                     {
                         if (phase == GamePhase.Start1)
                         {
@@ -187,6 +225,7 @@ public class Game : MonoBehaviour
                         }
                         else if (phase == GamePhase.Start2)
                         {
+                            GatherResourcesOnSetup(node);
                             state = State.PlaceRoad;
                         }
                     }
@@ -207,7 +246,6 @@ public class Game : MonoBehaviour
                         }
                         else if (phase == GamePhase.Start2)
                         {
-                            // TODO: Add resources to player
                             currentPlayer = GetPreviousPlayer();
                             if (currentPlayer == PlayerColor.None)
                             {
