@@ -13,7 +13,7 @@ public class BoardController : MonoBehaviour
     public NodeController nodePrefab;
     public EdgeController edgePrefab;
     // Sprite prefabs should be in the following order:
-    // ClayHill, Desert, Farm, Field, Forest, Mountain
+    // ClayHill, Farm, Field, Forest, Mountain, Desert
     public GameObject[] tileSpritePrefabs;
     // Numbers 2 through 12 (7 should be null)
     public GameObject[] tileNumberPrefabs;

@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    public enum TileType { ClayHill, Desert, Farm, Field, Forest, Mountain }
+    public enum TileType { ClayHill, Farm, Field, Forest, Mountain, Desert }
     public enum BuildingType { Settlement, City }
     public enum PlayerColor { None, Orange, Green, Blue, Red }
-    public enum ResourceType { Brick, None, Wheat, Sheep, Wood, Ore }
+    public enum ResourceType { Brick, Wheat, Sheep, Wood, Ore, None }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
     public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait }
     public enum GamePhase { Start1, Start2, Middle }
@@ -126,6 +126,8 @@ public class Game : MonoBehaviour
     }
     NodeController PlaceBuilding(Collider2D collider, BuildingType buildingType)
     {
+        if (players[currentPlayer].buildingsLeft[buildingType] == 0)
+            return null;
         foreach (var node in board.nodes)
         {
             if (collider.gameObject == node.gameObject)
@@ -134,6 +136,8 @@ public class Game : MonoBehaviour
                 {
                     if ((node.color == PlayerColor.None) && IsValidPlaceForBuilding(node))
                     {
+                        --players[currentPlayer].buildingsLeft[buildingType];
+                        players[currentPlayer].buildings.Add(node);
                         node.color = currentPlayer;
                         board.AddSettlement(node);
                         return node;
@@ -143,6 +147,8 @@ public class Game : MonoBehaviour
                 {
                     if (node.color == currentPlayer && node.buildingType == BuildingType.Settlement)
                     {
+                        --players[currentPlayer].buildingsLeft[buildingType];
+                        players[currentPlayer].buildings.Add(node);
                         board.AddCity(node);
                         return node;
                     }
@@ -154,12 +160,16 @@ public class Game : MonoBehaviour
     }
     bool PlaceRoad(Collider2D collider)
     {
+        if (players[currentPlayer].roadsLeft == 0)
+            return false;
         foreach (var edge in board.edges)
         {
             if (collider.gameObject == edge.gameObject)
             {
                 if (edge.color == PlayerColor.None)
                 {
+                    --players[currentPlayer].roadsLeft;
+                    players[currentPlayer].roads.Add(edge);
                     edge.color = currentPlayer;
                     board.AddRoad(edge);
                     return true;
@@ -186,7 +196,7 @@ public class Game : MonoBehaviour
     {
         foreach (var tile in board.tiles)
         {
-            if (tile.nodes.Contains(node))
+            if ((tile.type != TileType.Desert) && tile.nodes.Contains(node))
             {
                 GiveResourceToPlayer(players[currentPlayer], ResourceFrom(tile.type), 1);
             }
