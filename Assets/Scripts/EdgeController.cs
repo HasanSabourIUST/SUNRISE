@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static NodeController;
+using static Game;
 
 public class EdgeController : MonoBehaviour
 {

@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Game;
 
 public class TileController : MonoBehaviour
 {
-    public enum TileType { ClayHill, Desert, Farm, Field, Forest, Mountain}
+    
     public TileType type;
     public NodeController[] nodes;
     // Start is called before the first frame update

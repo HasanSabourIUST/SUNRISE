@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static TileController;
+using static Game;
 
 public class BoardController : MonoBehaviour
 {
@@ -472,11 +472,11 @@ public class BoardController : MonoBehaviour
         {
             nodes[i] = Instantiate(nodePrefab);
             nodes[i].transform.parent = transform;
-            if (nodes[i].color != NodeController.PlayerColor.None)
+            if (nodes[i].color != PlayerColor.None)
             {
                 int nodeColorIdx = (int)nodes[i].color;
                 GameObject buildingSprite = null;
-                if (nodes[i].buildingType == NodeController.BuildingType.Settlement)
+                if (nodes[i].buildingType == BuildingType.Settlement)
                     buildingSprite = Instantiate(settlementPrefabs[nodeColorIdx]);
                 else
                     buildingSprite = Instantiate(cityPrefabs[nodeColorIdx]);
