@@ -9,6 +9,8 @@ public class Game : MonoBehaviour
     public enum PlayerColor { None, Red, Green, Blue, Orange }
     public enum ResourceType { Brick, None, Wheat, Sheep, Wood, Ore }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
+    public enum State { PlaceBuilding, PlaceRoad, Roll, PlaceThief, Wait }
+    public enum GamePhase { Start1, Start2, Middle }
     public static ResourceType ResourceFrom(TileType tileType)
     {
         switch (tileType)
@@ -32,10 +34,25 @@ public class Game : MonoBehaviour
     public Dictionary<ResourceType, int> resources;
     public Dictionary<DevCardType, int> devCards;
     public TileController tileWithThief;
-    public PlayerColor playerTurn;
+    public PlayerColor turn;
+    public State state;
+    public GamePhase phase;
     // Start is called before the first frame update
     void Start()
     {
+        NewGame();
+    }
+
+    void NewGame()
+    {
+        phase = GamePhase.Start1;
+        if (playersCount == 4)
+        {
+            players.Add(new Player(PlayerColor.Red));
+        }
+        players.Add(new Player(PlayerColor.Green));
+        players.Add(new Player(PlayerColor.Blue));
+        players.Add(new Player(PlayerColor.Orange));
         resources = new Dictionary<ResourceType, int>()
         {
             { ResourceType.Brick, 19 },
@@ -60,13 +77,6 @@ public class Game : MonoBehaviour
                 break;
             }
         }
-        if (playersCount == 4)
-        {
-            players.Add(new Player(PlayerColor.Red));
-        }
-        players.Add(new Player(PlayerColor.Green));
-        players.Add(new Player(PlayerColor.Blue));
-        players.Add(new Player(PlayerColor.Orange));
     }
 
     // Update is called once per frame
