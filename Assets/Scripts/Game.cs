@@ -90,6 +90,8 @@ public class Game : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
             if (hit.collider != null)
             {
+                bool nodeHit = false;
+                bool edgeHit = false;
                 foreach (var node in board.nodes)
                 {
                     if (hit.collider.gameObject == node.gameObject)
@@ -99,9 +101,27 @@ public class Game : MonoBehaviour
                             node.color = turn;
                             board.AddSettlement(node);
                         }
-                        else
+                        else if (node.buildingType == BuildingType.Settlement)
                         {
                             board.AddCity(node);
+                        }
+                        nodeHit = true;
+                        break;
+                    }
+                }
+                if (!nodeHit)
+                {
+                    foreach (var edge in board.edges)
+                    {
+                        if (hit.collider.gameObject == edge.gameObject)
+                        {
+                            if (edge.color == PlayerColor.None)
+                            {
+                                edge.color = turn;
+                                board.AddRoad(edge);
+                            }
+                            edgeHit = true;
+                            break;
                         }
                     }
                 }

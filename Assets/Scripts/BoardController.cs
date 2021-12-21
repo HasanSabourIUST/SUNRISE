@@ -520,6 +520,13 @@ public class BoardController : MonoBehaviour
         buildingSprite.transform.position = node.transform.position;
         buildingSprite.transform.parent = node.transform;
     }
+    public void AddRoad(EdgeController edge)
+    {
+        var roadSprite = Instantiate(roadPrefabs[ColorIndex(edge.color)]);
+        roadSprite.transform.position = edge.transform.position;
+        roadSprite.transform.rotation = edge.transform.rotation;
+        roadSprite.transform.parent = edge.transform;
+    }
     int ColorIndex(PlayerColor color)
     {
         switch (color)
