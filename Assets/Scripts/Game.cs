@@ -26,12 +26,47 @@ public class Game : MonoBehaviour
         }
         return ResourceType.None;
     }
+    public int playersCount;
     public BoardController board;
     public List<Player> players;
+    public Dictionary<ResourceType, int> resources;
+    public Dictionary<DevCardType, int> devCards;
+    public TileController tileWithThief;
+    public PlayerColor playerTurn;
     // Start is called before the first frame update
     void Start()
     {
-        
+        resources = new Dictionary<ResourceType, int>()
+        {
+            { ResourceType.Brick, 19 },
+            { ResourceType.Wheat, 19 },
+            { ResourceType.Sheep, 19 },
+            { ResourceType.Wood, 19 },
+            { ResourceType.Ore, 19 },
+        };
+        devCards = new Dictionary<DevCardType, int>()
+        {
+            { DevCardType.Plenty, 2 },
+            { DevCardType.Monopoly, 2 },
+            { DevCardType.Roadbuilding, 2 },
+            { DevCardType.Knight, 14 },
+            { DevCardType.VP, 5 },
+        };
+        foreach (var tile in board.tiles)
+        {
+            if (tile.type == TileType.Desert)
+            {
+                tileWithThief = tile;
+                break;
+            }
+        }
+        if (playersCount == 4)
+        {
+            players.Add(new Player(PlayerColor.Red));
+        }
+        players.Add(new Player(PlayerColor.Green));
+        players.Add(new Player(PlayerColor.Blue));
+        players.Add(new Player(PlayerColor.Orange));
     }
 
     // Update is called once per frame

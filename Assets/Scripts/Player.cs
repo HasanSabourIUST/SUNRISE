@@ -14,8 +14,9 @@ public class Player
     public List<EdgeController> roads;
     public int victoryPoints;
 
-    public Player()
+    public Player(PlayerColor color)
     {
+        this.color = color;
         resources = new Dictionary<ResourceType, int>()
         {
             { ResourceType.Brick, 0 },
