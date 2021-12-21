@@ -465,22 +465,22 @@ MonoBehaviour:
   - {fileID: 4279219261564492029, guid: 2e0ab87c7082a334491bf3bca7bf0400, type: 3}
   roadPrefabs:
   - {fileID: 0}
-  - {fileID: 3520300519919236450, guid: 98047e9e0333a0a45a314c766d65b787, type: 3}
+  - {fileID: 3520300519919236450, guid: 1082f0d5a3f728f48a13998cc39d5d2d, type: 3}
   - {fileID: 3520300519919236450, guid: 799afcd614194bc409167363e1cdbb66, type: 3}
   - {fileID: 3520300519919236450, guid: 44d316018a159ba4ab2feb7b5e0f1e81, type: 3}
-  - {fileID: 3520300519919236450, guid: 1082f0d5a3f728f48a13998cc39d5d2d, type: 3}
+  - {fileID: 3520300519919236450, guid: 98047e9e0333a0a45a314c766d65b787, type: 3}
   settlementPrefabs:
   - {fileID: 0}
-  - {fileID: 7617038598523097750, guid: f1b0ded892a89514aa43e03bbd3a57e8, type: 3}
+  - {fileID: 7617038598523097750, guid: b3596124cfbf5e640a03b3503479dbb0, type: 3}
   - {fileID: 7617038598523097750, guid: b013efe0728e9b74fb9b169ee14b8820, type: 3}
   - {fileID: 7617038598523097750, guid: f85c1d214cb422c4f904bb442be1f490, type: 3}
-  - {fileID: 7617038598523097750, guid: b3596124cfbf5e640a03b3503479dbb0, type: 3}
+  - {fileID: 7617038598523097750, guid: f1b0ded892a89514aa43e03bbd3a57e8, type: 3}
   cityPrefabs:
   - {fileID: 0}
-  - {fileID: 7617038598523097750, guid: b1bfaa6b34b607c49804f9cf070dae91, type: 3}
+  - {fileID: 7617038598523097750, guid: 71a3702b1f2657248b7b9155263d291d, type: 3}
   - {fileID: 7617038598523097750, guid: 3669d168964a5574a82c7442f04b974e, type: 3}
   - {fileID: 7617038598523097750, guid: 503adf1c5a5f3ee4f829724578358f83, type: 3}
-  - {fileID: 7617038598523097750, guid: 71a3702b1f2657248b7b9155263d291d, type: 3}
+  - {fileID: 7617038598523097750, guid: b1bfaa6b34b607c49804f9cf070dae91, type: 3}
   tiles: []
   nodes: []
   edges: []

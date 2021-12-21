@@ -18,7 +18,7 @@ public class BoardController : MonoBehaviour
     // Numbers 2 through 12 (7 should be null)
     public GameObject[] tileNumberPrefabs;
     // The prefabs should be in the following order:
-    // None (null), Red, Green, Blue, Orange
+    // None (null), Orange, Green, Blue, Red
     public GameObject[] roadPrefabs;
     public GameObject[] settlementPrefabs;
     public GameObject[] cityPrefabs;

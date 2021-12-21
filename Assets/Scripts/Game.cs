@@ -6,12 +6,12 @@ public class Game : MonoBehaviour
 {
     public enum TileType { ClayHill, Desert, Farm, Field, Forest, Mountain }
     public enum BuildingType { Settlement, City }
-    public enum PlayerColor { None, Red, Green, Blue, Orange }
+    public enum PlayerColor { None, Orange, Green, Blue, Red }
     public enum ResourceType { Brick, None, Wheat, Sheep, Wood, Ore }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
     public enum State { PlaceBuilding, PlaceRoad, Roll, PlaceThief, Wait }
     public enum GamePhase { Start1, Start2, Middle }
-    public static ResourceType ResourceFrom(TileType tileType)
+    public ResourceType ResourceFrom(TileType tileType)
     {
         switch (tileType)
         {
@@ -28,13 +28,43 @@ public class Game : MonoBehaviour
         }
         return ResourceType.None;
     }
+    public PlayerColor nextPlayer()
+    {
+        switch (currentPlayer)
+        {
+            case PlayerColor.Orange:
+                return PlayerColor.Green;
+            case PlayerColor.Green:
+                return PlayerColor.Blue;
+            case PlayerColor.Blue:
+                return (playersCount == 3) ? PlayerColor.None : PlayerColor.Red;
+            case PlayerColor.Red:
+                return PlayerColor.None;
+        }
+        return PlayerColor.Orange;
+    }
+    public PlayerColor previousPlayer()
+    {
+        switch (currentPlayer)
+        {
+            case PlayerColor.Orange:
+                return PlayerColor.None;
+            case PlayerColor.Green:
+                return PlayerColor.Orange;
+            case PlayerColor.Blue:
+                return PlayerColor.Green;
+            case PlayerColor.Red:
+                return PlayerColor.Blue;
+        }
+        return (playersCount == 3) ? PlayerColor.Blue : PlayerColor.Red;
+    }
     public int playersCount;
     public BoardController board;
-    public List<Player> players;
+    public Dictionary<PlayerColor, Player> players;
     public Dictionary<ResourceType, int> resources;
     public Dictionary<DevCardType, int> devCards;
     public TileController tileWithThief;
-    public PlayerColor turn;
+    public PlayerColor currentPlayer;
     public State state;
     public GamePhase phase;
     // Start is called before the first frame update
@@ -46,15 +76,13 @@ public class Game : MonoBehaviour
     void NewGame()
     {
         phase = GamePhase.Start1;
-        players = new List<Player>();
-        if (playersCount == 4)
+        players = new Dictionary<PlayerColor, Player>();
+        for (int i = 1; i <= playersCount; ++i)
         {
-            players.Add(new Player(PlayerColor.Red));
+            PlayerColor color = (PlayerColor)i;
+            players.Add(color, new Player(color));
         }
-        players.Add(new Player(PlayerColor.Green));
-        players.Add(new Player(PlayerColor.Blue));
-        players.Add(new Player(PlayerColor.Orange));
-        turn = players[0].color;
+        currentPlayer = PlayerColor.Orange;
         resources = new Dictionary<ResourceType, int>()
         {
             { ResourceType.Brick, 19 },
@@ -98,7 +126,7 @@ public class Game : MonoBehaviour
                     {
                         if (node.color == PlayerColor.None)
                         {
-                            node.color = turn;
+                            node.color = currentPlayer;
                             board.AddSettlement(node);
                         }
                         else if (node.buildingType == BuildingType.Settlement)
@@ -117,7 +145,7 @@ public class Game : MonoBehaviour
                         {
                             if (edge.color == PlayerColor.None)
                             {
-                                edge.color = turn;
+                                edge.color = currentPlayer;
                                 board.AddRoad(edge);
                             }
                             edgeHit = true;
