@@ -171,6 +171,10 @@ public class Game : MonoBehaviour
                         {
                             state = State.PlaceRoad;
                         }
+                        else if (phase == GamePhase.Start2)
+                        {
+                            state = State.PlaceRoad;
+                        }
                     }
                 }
                 else if (state == State.PlaceRoad)
@@ -182,7 +186,25 @@ public class Game : MonoBehaviour
                             currentPlayer = GetNextPlayer();
                             state = State.PlaceSettlement;
                             if (currentPlayer == PlayerColor.None)
+                            {
                                 phase = GamePhase.Start2;
+                                currentPlayer = GetPreviousPlayer();
+                            }
+                        }
+                        else if (phase == GamePhase.Start2)
+                        {
+                            // TODO: Add resources to player
+                            currentPlayer = GetPreviousPlayer();
+                            if (currentPlayer == PlayerColor.None)
+                            {
+                                phase = GamePhase.Middle;
+                                state = State.Roll;
+                                currentPlayer = GetNextPlayer();
+                            }
+                            else
+                            {
+                                state = State.PlaceSettlement;
+                            }
                         }
                     }
                 }
