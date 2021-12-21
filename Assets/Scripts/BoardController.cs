@@ -527,21 +527,7 @@ public class BoardController : MonoBehaviour
         roadSprite.transform.rotation = edge.transform.rotation;
         roadSprite.transform.parent = edge.transform;
     }
-    int ColorIndex(PlayerColor color)
-    {
-        switch (color)
-        {
-            case PlayerColor.Red:
-                return 1;
-            case PlayerColor.Green:
-                return 2;
-            case PlayerColor.Blue:
-                return 3;
-            case PlayerColor.Orange:
-                return 4;
-        }
-        return 0;
-    }
+    int ColorIndex(PlayerColor color) => (int)color;
     // Update is called once per frame
     void Update()
     {

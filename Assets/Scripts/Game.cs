@@ -9,7 +9,7 @@ public class Game : MonoBehaviour
     public enum PlayerColor { None, Orange, Green, Blue, Red }
     public enum ResourceType { Brick, None, Wheat, Sheep, Wood, Ore }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
-    public enum State { PlaceBuilding, PlaceRoad, Roll, PlaceThief, Wait }
+    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait }
     public enum GamePhase { Start1, Start2, Middle }
     public ResourceType ResourceFrom(TileType tileType)
     {
@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
         }
         return ResourceType.None;
     }
-    public PlayerColor nextPlayer()
+    public PlayerColor GetNextPlayer()
     {
         switch (currentPlayer)
         {
@@ -43,7 +43,7 @@ public class Game : MonoBehaviour
         }
         return PlayerColor.Orange;
     }
-    public PlayerColor previousPlayer()
+    public PlayerColor GetPreviousPlayer()
     {
         switch (currentPlayer)
         {
@@ -76,6 +76,7 @@ public class Game : MonoBehaviour
     void NewGame()
     {
         phase = GamePhase.Start1;
+        state = State.PlaceSettlement;
         players = new Dictionary<PlayerColor, Player>();
         for (int i = 1; i <= playersCount; ++i)
         {
@@ -108,7 +109,51 @@ public class Game : MonoBehaviour
             }
         }
     }
-
+    bool PlaceBuilding(Collider2D collider, BuildingType buildingType)
+    {
+        foreach (var node in board.nodes)
+        {
+            if (collider.gameObject == node.gameObject)
+            {
+                if (buildingType == BuildingType.Settlement)
+                {
+                    if (node.color == PlayerColor.None)
+                    {
+                        node.color = currentPlayer;
+                        board.AddSettlement(node);
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (node.color == currentPlayer && node.buildingType == BuildingType.Settlement)
+                    {
+                        board.AddCity(node);
+                        return true;
+                    }
+                }
+                break;
+            }
+        }
+        return false;
+    }
+    bool PlaceRoad(Collider2D collider)
+    {
+        foreach (var edge in board.edges)
+        {
+            if (collider.gameObject == edge.gameObject)
+            {
+                if (edge.color == PlayerColor.None)
+                {
+                    edge.color = currentPlayer;
+                    board.AddRoad(edge);
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -118,38 +163,26 @@ public class Game : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
             if (hit.collider != null)
             {
-                bool nodeHit = false;
-                bool edgeHit = false;
-                foreach (var node in board.nodes)
+                if (state == State.PlaceSettlement)
                 {
-                    if (hit.collider.gameObject == node.gameObject)
+                    if (PlaceBuilding(hit.collider, BuildingType.Settlement))
                     {
-                        if (node.color == PlayerColor.None)
+                        if (phase == GamePhase.Start1)
                         {
-                            node.color = currentPlayer;
-                            board.AddSettlement(node);
+                            state = State.PlaceRoad;
                         }
-                        else if (node.buildingType == BuildingType.Settlement)
-                        {
-                            board.AddCity(node);
-                        }
-                        nodeHit = true;
-                        break;
                     }
                 }
-                if (!nodeHit)
+                else if (state == State.PlaceRoad)
                 {
-                    foreach (var edge in board.edges)
+                    if (PlaceRoad(hit.collider))
                     {
-                        if (hit.collider.gameObject == edge.gameObject)
+                        if (phase == GamePhase.Start1)
                         {
-                            if (edge.color == PlayerColor.None)
-                            {
-                                edge.color = currentPlayer;
-                                board.AddRoad(edge);
-                            }
-                            edgeHit = true;
-                            break;
+                            currentPlayer = GetNextPlayer();
+                            state = State.PlaceSettlement;
+                            if (currentPlayer == PlayerColor.None)
+                                phase = GamePhase.Start2;
                         }
                     }
                 }
