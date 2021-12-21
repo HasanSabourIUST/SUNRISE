@@ -10,7 +10,7 @@ public class EdgeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nodes = new NodeController[2];
+        //nodes = new NodeController[2];
     }
 
     // Update is called once per frame

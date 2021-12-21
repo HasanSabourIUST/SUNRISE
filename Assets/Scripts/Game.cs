@@ -109,6 +109,20 @@ public class Game : MonoBehaviour
             }
         }
     }
+    bool IsValidPlaceForBuilding(NodeController node)
+    {
+        foreach (var edge in node.edges)
+        {
+            foreach (var neighbor in edge.nodes)
+            {
+                if (neighbor.color != PlayerColor.None)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     bool PlaceBuilding(Collider2D collider, BuildingType buildingType)
     {
         foreach (var node in board.nodes)
@@ -117,14 +131,14 @@ public class Game : MonoBehaviour
             {
                 if (buildingType == BuildingType.Settlement)
                 {
-                    if (node.color == PlayerColor.None)
+                    if ((node.color == PlayerColor.None) && IsValidPlaceForBuilding(node))
                     {
                         node.color = currentPlayer;
                         board.AddSettlement(node);
                         return true;
                     }
                 }
-                else
+                else if (buildingType == BuildingType.City)
                 {
                     if (node.color == currentPlayer && node.buildingType == BuildingType.Settlement)
                     {
