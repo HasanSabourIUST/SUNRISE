@@ -505,7 +505,36 @@ public class BoardController : MonoBehaviour
         for (int i = 0; i < EDGES_COUNT; ++i)
             edges[i].nodes = neighborNodesOfEdge[i].Select(n => nodes[n]).ToArray();
     }
-
+    public void AddSettlement(NodeController node)
+    {
+        node.buildingType = BuildingType.Settlement;
+        GameObject buildingSprite = Instantiate(settlementPrefabs[ColorIndex(node.color)]);
+        buildingSprite.transform.position = node.transform.position;
+        buildingSprite.transform.parent = node.transform;
+    }
+    public void AddCity(NodeController node)
+    {
+        node.buildingType = BuildingType.City;
+        Destroy(node.transform.GetChild(0).gameObject);
+        GameObject buildingSprite = Instantiate(cityPrefabs[ColorIndex(node.color)]);
+        buildingSprite.transform.position = node.transform.position;
+        buildingSprite.transform.parent = node.transform;
+    }
+    int ColorIndex(PlayerColor color)
+    {
+        switch (color)
+        {
+            case PlayerColor.Red:
+                return 1;
+            case PlayerColor.Green:
+                return 2;
+            case PlayerColor.Blue:
+                return 3;
+            case PlayerColor.Orange:
+                return 4;
+        }
+        return 0;
+    }
     // Update is called once per frame
     void Update()
     {

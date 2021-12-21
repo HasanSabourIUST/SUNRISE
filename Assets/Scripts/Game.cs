@@ -46,6 +46,7 @@ public class Game : MonoBehaviour
     void NewGame()
     {
         phase = GamePhase.Start1;
+        players = new List<Player>();
         if (playersCount == 4)
         {
             players.Add(new Player(PlayerColor.Red));
@@ -53,6 +54,7 @@ public class Game : MonoBehaviour
         players.Add(new Player(PlayerColor.Green));
         players.Add(new Player(PlayerColor.Blue));
         players.Add(new Player(PlayerColor.Orange));
+        turn = players[0].color;
         resources = new Dictionary<ResourceType, int>()
         {
             { ResourceType.Brick, 19 },
@@ -82,6 +84,28 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+            if (hit.collider != null)
+            {
+                foreach (var node in board.nodes)
+                {
+                    if (hit.collider.gameObject == node.gameObject)
+                    {
+                        if (node.color == PlayerColor.None)
+                        {
+                            node.color = turn;
+                            board.AddSettlement(node);
+                        }
+                        else
+                        {
+                            board.AddCity(node);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
