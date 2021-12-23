@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static TileController;
+using static Game;
 
 public class BoardController : MonoBehaviour
 {
@@ -13,12 +13,12 @@ public class BoardController : MonoBehaviour
     public NodeController nodePrefab;
     public EdgeController edgePrefab;
     // Sprite prefabs should be in the following order:
-    // ClayHill, Desert, Farm, Field, Forest, Mountain
+    // ClayHill, Farm, Field, Forest, Mountain, Desert
     public GameObject[] tileSpritePrefabs;
     // Numbers 2 through 12 (7 should be null)
     public GameObject[] tileNumberPrefabs;
     // The prefabs should be in the following order:
-    // None (null), Red, Green, Blue, Orange
+    // None (null), Orange, Green, Blue, Red
     public GameObject[] roadPrefabs;
     public GameObject[] settlementPrefabs;
     public GameObject[] cityPrefabs;
@@ -472,11 +472,11 @@ public class BoardController : MonoBehaviour
         {
             nodes[i] = Instantiate(nodePrefab);
             nodes[i].transform.parent = transform;
-            if (nodes[i].color != NodeController.PlayerColor.None)
+            if (nodes[i].color != PlayerColor.None)
             {
                 int nodeColorIdx = (int)nodes[i].color;
                 GameObject buildingSprite = null;
-                if (nodes[i].buildingType == NodeController.BuildingType.Settlement)
+                if (nodes[i].buildingType == BuildingType.Settlement)
                     buildingSprite = Instantiate(settlementPrefabs[nodeColorIdx]);
                 else
                     buildingSprite = Instantiate(cityPrefabs[nodeColorIdx]);
@@ -505,7 +505,29 @@ public class BoardController : MonoBehaviour
         for (int i = 0; i < EDGES_COUNT; ++i)
             edges[i].nodes = neighborNodesOfEdge[i].Select(n => nodes[n]).ToArray();
     }
-
+    public void AddSettlement(NodeController node)
+    {
+        node.buildingType = BuildingType.Settlement;
+        GameObject buildingSprite = Instantiate(settlementPrefabs[ColorIndex(node.color)]);
+        buildingSprite.transform.position = node.transform.position;
+        buildingSprite.transform.parent = node.transform;
+    }
+    public void AddCity(NodeController node)
+    {
+        node.buildingType = BuildingType.City;
+        Destroy(node.transform.GetChild(0).gameObject);
+        GameObject buildingSprite = Instantiate(cityPrefabs[ColorIndex(node.color)]);
+        buildingSprite.transform.position = node.transform.position;
+        buildingSprite.transform.parent = node.transform;
+    }
+    public void AddRoad(EdgeController edge)
+    {
+        var roadSprite = Instantiate(roadPrefabs[ColorIndex(edge.color)]);
+        roadSprite.transform.position = edge.transform.position;
+        roadSprite.transform.rotation = edge.transform.rotation;
+        roadSprite.transform.parent = edge.transform;
+    }
+    int ColorIndex(PlayerColor color) => (int)color;
     // Update is called once per frame
     void Update()
     {
