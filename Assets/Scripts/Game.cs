@@ -11,7 +11,7 @@ public class Game : MonoBehaviour
     public enum ResourceType { Brick, Wheat, Sheep, Wood, Ore, None }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
     public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait }
-    public enum GamePhase { Start1, Start2, Middle }
+    public enum GamePhase { Start1, Start2, Middle, Finished }
     public ResourceType ResourceFrom(TileType tileType)
     {
         switch (tileType)
@@ -432,6 +432,10 @@ public class Game : MonoBehaviour
                     state = State.Wait;
                 }
             }
+        }
+        if (players[currentPlayer].victoryPoints >= 10)
+        {
+
         }
     }
 }

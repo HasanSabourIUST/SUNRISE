@@ -78,10 +78,11 @@ public class UiManager : MonoBehaviour
                 actionButton.GetComponentInChildren<Text>().text = "End Turn";
             }
         }
+        else if (game.phase == Game.GamePhase.Finished)
+        {
+            promptText.text = game.currentPlayer.ToString() + " Won!";
+        }
         var player = game.players[game.currentPlayer];
-        //buildingsTexts[0].text = "Settlements Left: " + player.buildingsLeft[Game.BuildingType.Settlement].ToString();
-        //buildingsTexts[1].text = "Cities Left: " + player.buildingsLeft[Game.BuildingType.City].ToString();
-        //roadsTexts.text = "Roads Left: " + player.roadsLeft;
         foreach (var resourceType in player.resources.Keys)
             resourcesTexts[(int)resourceType].text = player.resources[resourceType].ToString();
     }
