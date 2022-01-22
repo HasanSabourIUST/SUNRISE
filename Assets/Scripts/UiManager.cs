@@ -43,6 +43,10 @@ public class UiManager : MonoBehaviour
                 promptText.text = "";
                 actionButton.GetComponentInChildren<Text>().text = "Roll";
             }
+            else if (game.state == Game.State.PlaceThief)
+            {
+                promptText.text = "Place the thief on one of the tiles";
+            }
             else if (game.state == Game.State.Wait)
             {
                 actionButton.GetComponentInChildren<Text>().text = "End Turn";

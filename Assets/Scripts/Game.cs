@@ -65,6 +65,7 @@ public class Game : MonoBehaviour
     public Dictionary<ResourceType, int> resources;
     public Dictionary<DevCardType, int> devCards;
     public TileController tileWithThief;
+    public GameObject thief;
     public Dice[] dices;
     public PlayerColor currentPlayer;
     public State state;
@@ -110,6 +111,7 @@ public class Game : MonoBehaviour
                 break;
             }
         }
+        thief.transform.position = tileWithThief.transform.position + new Vector3(0, 0.5f);
     }
     bool IsValidPlaceForBuilding(NodeController node)
     {
@@ -182,6 +184,34 @@ public class Game : MonoBehaviour
         }
         return false;
     }
+    void StealFrom(PlayerColor player)
+    {
+        var resources = players[player].resources.Where(resource => resource.Value > 0).Select(pair => pair.Key).ToList();
+        if (resources.Count == 0)
+            return;
+        var stolenResource = resources[Random.Range(0, resources.Count)];
+        --players[player].resources[stolenResource];
+        ++players[currentPlayer].resources[stolenResource];
+    }
+    bool PlaceThief(Collider2D collider)
+    {
+        foreach (var tile in board.tiles)
+        {
+            if (collider.gameObject == tile.gameObject)
+            {
+                var nearbyPlayers = tile.nodes.Select(node => node.color).Where(color => color != PlayerColor.None && color != currentPlayer).Distinct().ToList();
+                if (nearbyPlayers.Count > 0)
+                {
+                    var victim = nearbyPlayers[Random.Range(0, nearbyPlayers.Count)];
+                    StealFrom(victim);
+                }
+                tileWithThief = tile;
+                thief.transform.position = tileWithThief.transform.position + new Vector3(0, 0.5f);
+                return true;
+            }
+        }
+        return false;
+    }
 
     void GiveResourceToPlayer(Player player, ResourceType resourceType, int count)
     {
@@ -226,7 +256,7 @@ public class Game : MonoBehaviour
         int rollValue = dices.Select(dice => dice.value).Sum();
         if (rollValue == 7)
         {
-            //state = State.PlaceThief;
+            state = State.PlaceThief;
         }
         else
         {
@@ -304,6 +334,13 @@ public class Game : MonoBehaviour
                                 state = State.PlaceSettlement;
                             }
                         }
+                    }
+                }
+                else if (state == State.PlaceThief)
+                {
+                    if (PlaceThief(hit.collider))
+                    {
+                        state = State.Wait;
                     }
                 }
             }
