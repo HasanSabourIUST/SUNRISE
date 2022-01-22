@@ -140,6 +140,7 @@ public class Game : MonoBehaviour
                         players[currentPlayer].buildings.Add(node);
                         node.color = currentPlayer;
                         board.AddSettlement(node);
+                        ++players[currentPlayer].victoryPoints;
                         return node;
                     }
                 }
@@ -150,6 +151,7 @@ public class Game : MonoBehaviour
                         --players[currentPlayer].buildingsLeft[buildingType];
                         players[currentPlayer].buildings.Add(node);
                         board.AddCity(node);
+                        ++players[currentPlayer].victoryPoints;
                         return node;
                     }
                 }
