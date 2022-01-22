@@ -25,9 +25,9 @@ public class UiManager : MonoBehaviour
         playerTurnText.text = "Turn: " + game.currentPlayer;
         if (game.phase == Game.GamePhase.Start1)
         {
-            settlementButton.enabled = false;
-            cityButton.enabled = false;
-            roadButton.enabled = false;
+            settlementButton.interactable = false;
+            cityButton.interactable = false;
+            roadButton.interactable = false;
             if (game.state == Game.State.PlaceSettlement)
                 promptText.text = "Place your 1st settlement";
             else if (game.state == Game.State.PlaceRoad)
@@ -42,9 +42,9 @@ public class UiManager : MonoBehaviour
         }
         else if (game.phase == Game.GamePhase.Middle)
         {
-            settlementButton.enabled = game.players[game.currentPlayer].CanBuySettlement();
-            cityButton.enabled = game.players[game.currentPlayer].CanBuyCity();
-            roadButton.enabled = game.players[game.currentPlayer].CanBuyRoad();
+            settlementButton.interactable = game.players[game.currentPlayer].CanBuySettlement();
+            cityButton.interactable = game.players[game.currentPlayer].CanBuyCity();
+            roadButton.interactable = game.players[game.currentPlayer].CanBuyRoad();
             settlementButton.GetComponentInChildren<Text>().text = "Buy Settlement: "
                 + game.players[game.currentPlayer].buildingsLeft[Game.BuildingType.Settlement];
             cityButton.GetComponentInChildren<Text>().text = "Buy City: "
