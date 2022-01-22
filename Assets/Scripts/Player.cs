@@ -13,7 +13,46 @@ public class Player
     public List<NodeController> buildings;
     public List<EdgeController> roads;
     public int victoryPoints;
-
+    public bool CanBuyRoad()
+    {
+        return roadsLeft >= 1
+            && resources[ResourceType.Brick] >= 1
+            && resources[ResourceType.Wood] >= 1;
+    }
+    public bool CanBuySettlement()
+    {
+        return buildingsLeft[BuildingType.Settlement] >= 1
+            && resources[ResourceType.Brick] >= 1
+            && resources[ResourceType.Wood] >= 1
+            && resources[ResourceType.Wheat] >= 1
+            && resources[ResourceType.Sheep] >= 1;
+    }
+    public bool CanBuyCity()
+    {
+        return buildingsLeft[BuildingType.City] >= 1
+            && resources[ResourceType.Wheat] >= 2
+            && resources[ResourceType.Ore] >= 3;
+    }
+    public void BuyRoad()
+    {
+        roadsLeft -= 1;
+        resources[ResourceType.Brick] -= 1;
+        resources[ResourceType.Wood] -= 1;
+    }
+    public void BuySettlement()
+    {
+        buildingsLeft[BuildingType.Settlement] -= 1;
+        resources[ResourceType.Brick] -= 1;
+        resources[ResourceType.Wood] -= 1;
+        resources[ResourceType.Wheat] -= 1;
+        resources[ResourceType.Sheep] -= 1;
+    }
+    public void BuyCity()
+    {
+        buildingsLeft[BuildingType.City] -= 1;
+        resources[ResourceType.Wheat] -= 2;
+        resources[ResourceType.Ore] -= 3;
+    }
     public Player(PlayerColor color)
     {
         this.color = color;

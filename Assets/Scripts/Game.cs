@@ -142,7 +142,6 @@ public class Game : MonoBehaviour
                 {
                     if ((node.color == PlayerColor.None) && IsValidPlaceForBuilding(node))
                     {
-                        --players[currentPlayer].buildingsLeft[buildingType];
                         players[currentPlayer].buildings.Add(node);
                         node.color = currentPlayer;
                         board.AddSettlement(node);
@@ -154,7 +153,6 @@ public class Game : MonoBehaviour
                 {
                     if (node.color == currentPlayer && node.buildingType == BuildingType.Settlement)
                     {
-                        --players[currentPlayer].buildingsLeft[buildingType];
                         players[currentPlayer].buildings.Add(node);
                         board.AddCity(node);
                         ++players[currentPlayer].victoryPoints;
@@ -176,7 +174,6 @@ public class Game : MonoBehaviour
             {
                 if (edge.color == PlayerColor.None)
                 {
-                    --players[currentPlayer].roadsLeft;
                     players[currentPlayer].roads.Add(edge);
                     edge.color = currentPlayer;
                     board.AddRoad(edge);
@@ -284,6 +281,21 @@ public class Game : MonoBehaviour
             state = State.Roll;
         }
     }
+    public void BuySettlement()
+    {
+        if (phase == GamePhase.Middle && state == State.Wait)
+            state = State.PlaceSettlement;
+    }
+    public void BuyCity()
+    {
+        if (phase == GamePhase.Middle && state == State.Wait)
+            state = State.PlaceCity;
+    }
+    public void BuyRoad()
+    {
+        if (phase == GamePhase.Middle && state == State.Wait)
+            state = State.PlaceRoad;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -301,11 +313,30 @@ public class Game : MonoBehaviour
                         if (phase == GamePhase.Start1)
                         {
                             state = State.PlaceRoad;
+                            players[currentPlayer].buildingsLeft[BuildingType.Settlement] -= 1;
                         }
                         else if (phase == GamePhase.Start2)
                         {
                             GatherResourcesOnSetup(node);
                             state = State.PlaceRoad;
+                            players[currentPlayer].buildingsLeft[BuildingType.Settlement] -= 1;
+                        }
+                        else if (phase == GamePhase.Middle)
+                        {
+                            players[currentPlayer].BuySettlement();
+                            state = State.Wait;
+                        }
+                    }
+                }
+                else if (state == State.PlaceCity)
+                {
+                    if (phase == GamePhase.Middle)
+                    {
+                        var node = PlaceBuilding(hit.collider, BuildingType.City);
+                        if (node != null)
+                        {
+                            players[currentPlayer].BuyCity();
+                            state = State.Wait;
                         }
                     }
                 }
@@ -315,6 +346,7 @@ public class Game : MonoBehaviour
                     {
                         if (phase == GamePhase.Start1)
                         {
+                            players[currentPlayer].roadsLeft -= 1;
                             currentPlayer = GetNextPlayer();
                             state = State.PlaceSettlement;
                             if (currentPlayer == PlayerColor.None)
@@ -325,6 +357,7 @@ public class Game : MonoBehaviour
                         }
                         else if (phase == GamePhase.Start2)
                         {
+                            players[currentPlayer].roadsLeft -= 1;
                             currentPlayer = GetPreviousPlayer();
                             if (currentPlayer == PlayerColor.None)
                             {
@@ -335,7 +368,12 @@ public class Game : MonoBehaviour
                             else
                             {
                                 state = State.PlaceSettlement;
+                                state = State.Wait;
                             }
+                        }
+                        else if (phase == GamePhase.Middle)
+                        {
+                            players[currentPlayer].BuyRoad();
                         }
                     }
                 }
@@ -361,6 +399,16 @@ public class Game : MonoBehaviour
                             costsCard.transform.position += new Vector3(0, 5);
                         }
                     }
+                }
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (phase == GamePhase.Middle)
+            {
+                if (state == State.PlaceSettlement || state == State.PlaceCity || state == State.PlaceRoad)
+                {
+                    state = State.Wait;
                 }
             }
         }

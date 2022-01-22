@@ -12,6 +12,9 @@ public class UiManager : MonoBehaviour
     public Text roadsTexts;
     public Text[] resourcesTexts;
     public Button actionButton;
+    public Button settlementButton;
+    public Button cityButton;
+    public Button roadButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +27,9 @@ public class UiManager : MonoBehaviour
         playerTurnText.text = "Turn: " + game.currentPlayer;
         if (game.phase == Game.GamePhase.Start1)
         {
+            settlementButton.enabled = false;
+            cityButton.enabled = false;
+            roadButton.enabled = false;
             if (game.state == Game.State.PlaceSettlement)
                 promptText.text = "Place your 1st settlement";
             else if (game.state == Game.State.PlaceRoad)
@@ -38,7 +44,28 @@ public class UiManager : MonoBehaviour
         }
         else if (game.phase == Game.GamePhase.Middle)
         {
-            if (game.state == Game.State.Roll)
+            settlementButton.enabled = game.players[game.currentPlayer].CanBuySettlement();
+            cityButton.enabled = game.players[game.currentPlayer].CanBuyCity();
+            roadButton.enabled = game.players[game.currentPlayer].CanBuyRoad();
+            settlementButton.GetComponentInChildren<Text>().text = "Buy Settlement: "
+                + game.players[game.currentPlayer].buildingsLeft[Game.BuildingType.Settlement];
+            cityButton.GetComponentInChildren<Text>().text = "Buy City: "
+                + game.players[game.currentPlayer].buildingsLeft[Game.BuildingType.City];
+            roadButton.GetComponentInChildren<Text>().text = "Buy Road: "
+                + game.players[game.currentPlayer].roadsLeft;
+            if (game.state == Game.State.PlaceSettlement)
+            {
+                promptText.text = "Place settlement. Right click to cancel";
+            }
+            else if (game.state == Game.State.PlaceCity)
+            {
+                promptText.text = "Place city. Right click to cancel";
+            }
+            if (game.state == Game.State.PlaceRoad)
+            {
+                promptText.text = "Place road. Right click to cancel";
+            }
+            else if (game.state == Game.State.Roll)
             {
                 promptText.text = "";
                 actionButton.GetComponentInChildren<Text>().text = "Roll";
@@ -49,13 +76,14 @@ public class UiManager : MonoBehaviour
             }
             else if (game.state == Game.State.Wait)
             {
+                promptText.text = "";
                 actionButton.GetComponentInChildren<Text>().text = "End Turn";
             }
         }
         var player = game.players[game.currentPlayer];
-        buildingsTexts[0].text = "Settlements Left: " + player.buildingsLeft[Game.BuildingType.Settlement].ToString();
-        buildingsTexts[1].text = "Cities Left: " + player.buildingsLeft[Game.BuildingType.City].ToString();
-        roadsTexts.text = "Roads Left: " + player.roadsLeft;
+        //buildingsTexts[0].text = "Settlements Left: " + player.buildingsLeft[Game.BuildingType.Settlement].ToString();
+        //buildingsTexts[1].text = "Cities Left: " + player.buildingsLeft[Game.BuildingType.City].ToString();
+        //roadsTexts.text = "Roads Left: " + player.roadsLeft;
         foreach (var resourceType in player.resources.Keys)
             resourcesTexts[(int)resourceType].text = resourceType.ToString() + ": " + player.resources[resourceType].ToString();
     }
