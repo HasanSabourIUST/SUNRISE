@@ -8,8 +8,6 @@ public class UiManager : MonoBehaviour
     public Game game;
     public Text playerTurnText;
     public Text promptText;
-    public Text[] buildingsTexts;
-    public Text roadsTexts;
     public Text[] resourcesTexts;
     public Button actionButton;
     public Button settlementButton;
