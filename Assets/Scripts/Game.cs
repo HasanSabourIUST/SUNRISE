@@ -70,6 +70,8 @@ public class Game : MonoBehaviour
     public PlayerColor currentPlayer;
     public State state;
     public GamePhase phase;
+    public GameObject costsCard;
+    bool showCosts;
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +80,7 @@ public class Game : MonoBehaviour
 
     void NewGame()
     {
+        showCosts = false;
         phase = GamePhase.Start1;
         state = State.PlaceSettlement;
         players = new Dictionary<PlayerColor, Player>();
@@ -341,6 +344,22 @@ public class Game : MonoBehaviour
                     if (PlaceThief(hit.collider))
                     {
                         state = State.Wait;
+                    }
+                }
+                else if (state == State.Wait)
+                {
+                    if (hit.collider.gameObject == costsCard)
+                    {
+                        if (showCosts)
+                        {
+                            showCosts = false;
+                            costsCard.transform.position -= new Vector3(0, 5);
+                        }
+                        else
+                        {
+                            showCosts = true;
+                            costsCard.transform.position += new Vector3(0, 5);
+                        }
                     }
                 }
             }
