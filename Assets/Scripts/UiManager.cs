@@ -53,15 +53,15 @@ public class UiManager : MonoBehaviour
                 + game.players[game.currentPlayer].roadsLeft;
             if (game.state == Game.State.PlaceSettlement)
             {
-                promptText.text = "Place settlement. Right click to cancel";
+                promptText.text = "Place settlement.\n Right click to cancel";
             }
             else if (game.state == Game.State.PlaceCity)
             {
-                promptText.text = "Place city. Right click to cancel";
+                promptText.text = "Place city.\n Right click to cancel";
             }
             if (game.state == Game.State.PlaceRoad)
             {
-                promptText.text = "Place road. Right click to cancel";
+                promptText.text = "Place road.\n Right click to cancel";
             }
             else if (game.state == Game.State.Roll)
             {
@@ -70,7 +70,7 @@ public class UiManager : MonoBehaviour
             }
             else if (game.state == Game.State.PlaceThief)
             {
-                promptText.text = "Place the thief on one of the tiles";
+                promptText.text = "Place the thief";
             }
             else if (game.state == Game.State.Wait)
             {
@@ -83,6 +83,6 @@ public class UiManager : MonoBehaviour
         //buildingsTexts[1].text = "Cities Left: " + player.buildingsLeft[Game.BuildingType.City].ToString();
         //roadsTexts.text = "Roads Left: " + player.roadsLeft;
         foreach (var resourceType in player.resources.Keys)
-            resourcesTexts[(int)resourceType].text = resourceType.ToString() + ": " + player.resources[resourceType].ToString();
+            resourcesTexts[(int)resourceType].text = player.resources[resourceType].ToString();
     }
 }

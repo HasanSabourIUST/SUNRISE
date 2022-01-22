@@ -389,12 +389,12 @@ public class Game : MonoBehaviour
                             else
                             {
                                 state = State.PlaceSettlement;
-                                state = State.Wait;
                             }
                         }
                         else if (phase == GamePhase.Middle)
                         {
                             players[currentPlayer].BuyRoad();
+                            state = State.Wait;
                         }
                     }
                 }

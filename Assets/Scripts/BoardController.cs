@@ -466,7 +466,7 @@ public class BoardController : MonoBehaviour
                 numberSprite.transform.position = new Vector3(0, -0.4f, -1);
                 numberSprite.transform.localScale = new Vector3(0.3f, 0.3f, 1);
             }
-            tiles[i].transform.position = tilePositions[i] + new Vector3(0, 0, 2);
+            tiles[i].transform.position = transform.position + tilePositions[i] + new Vector3(0, 0, 2);
         }
         for (int i = 0; i < NODES_COUNT; ++i)
         {
@@ -482,7 +482,7 @@ public class BoardController : MonoBehaviour
                     buildingSprite = Instantiate(cityPrefabs[nodeColorIdx]);
                 buildingSprite.transform.parent = nodes[i].transform;
             }
-            nodes[i].transform.position = nodePositions[i];
+            nodes[i].transform.position = transform.position + nodePositions[i];
         }
         for (int i = 0; i < EDGES_COUNT; ++i)
         {
@@ -494,7 +494,7 @@ public class BoardController : MonoBehaviour
                 var roadSprite = Instantiate(roadPrefabs[edgeColorIdx]);
                 roadSprite.transform.parent = edges[i].transform;
             }
-            edges[i].transform.position = edgePositions[i] + new Vector3(0, 0, 1);
+            edges[i].transform.position = transform.position + edgePositions[i] + new Vector3(0, 0, 1);
             edges[i].transform.Rotate(0, 0, edgeRotations[i]);
         }
 
