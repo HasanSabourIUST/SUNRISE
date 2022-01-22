@@ -65,6 +65,7 @@ public class Game : MonoBehaviour
     public Dictionary<ResourceType, int> resources;
     public Dictionary<DevCardType, int> devCards;
     public TileController tileWithThief;
+    public Dice[] dices;
     public PlayerColor currentPlayer;
     public State state;
     public GamePhase phase;
@@ -181,6 +182,7 @@ public class Game : MonoBehaviour
         }
         return false;
     }
+
     void GiveResourceToPlayer(Player player, ResourceType resourceType, int count)
     {
         if (resources[resourceType] <= count)
@@ -215,6 +217,38 @@ public class Game : MonoBehaviour
                 else if (node.buildingType == BuildingType.City)
                     GiveResourceToPlayer(players[node.color], ResourceFrom(tile.type), 2);
             }
+        }
+    }
+    void Roll()
+    {
+        foreach (var dice in dices)
+            dice.Roll();
+        int rollValue = dices.Select(dice => dice.value).Sum();
+        if (rollValue == 7)
+        {
+            //state = State.PlaceThief;
+        }
+        else
+        {
+            state = State.Wait;
+            foreach (var tile in board.tilesByNumber[rollValue])
+            {
+                if (tile != tileWithThief)
+                    GatherResources(tile);
+            }
+        }
+    }
+    public void RunAction()
+    {
+        if (state == State.Roll)
+            Roll();
+        else if (state == State.Wait)
+        {
+            if (GetNextPlayer() == PlayerColor.None)
+                currentPlayer = PlayerColor.Orange;
+            else
+                currentPlayer = GetNextPlayer();
+            state = State.Roll;
         }
     }
     // Update is called once per frame

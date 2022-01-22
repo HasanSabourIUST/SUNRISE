@@ -11,6 +11,7 @@ public class UiManager : MonoBehaviour
     public Text[] buildingsTexts;
     public Text roadsTexts;
     public Text[] resourcesTexts;
+    public Button actionButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +39,14 @@ public class UiManager : MonoBehaviour
         else if (game.phase == Game.GamePhase.Middle)
         {
             if (game.state == Game.State.Roll)
-                promptText.text = "Roll";
+            {
+                promptText.text = "";
+                actionButton.GetComponentInChildren<Text>().text = "Roll";
+            }
+            else if (game.state == Game.State.Wait)
+            {
+                actionButton.GetComponentInChildren<Text>().text = "End Turn";
+            }
         }
         var player = game.players[game.currentPlayer];
         buildingsTexts[0].text = "Settlements Left: " + player.buildingsLeft[Game.BuildingType.Settlement].ToString();

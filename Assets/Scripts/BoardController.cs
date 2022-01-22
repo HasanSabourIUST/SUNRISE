@@ -26,7 +26,7 @@ public class BoardController : MonoBehaviour
     public NodeController[] nodes;
     public EdgeController[] edges;
     public float tileLength;
-    private Dictionary<int, List<TileController>> tilesByNumber;
+    public Dictionary<int, List<TileController>> tilesByNumber;
     // Start is called before the first frame update
     void Start()
     {
