@@ -118,6 +118,8 @@ public class Game : MonoBehaviour
     }
     bool IsValidPlaceForBuilding(NodeController node)
     {
+        if (node.color != PlayerColor.None)
+            return false;
         foreach (var edge in node.edges)
         {
             foreach (var neighbor in edge.nodes)
@@ -140,7 +142,7 @@ public class Game : MonoBehaviour
             {
                 if (buildingType == BuildingType.Settlement)
                 {
-                    if ((node.color == PlayerColor.None) && IsValidPlaceForBuilding(node))
+                    if (IsValidPlaceForBuilding(node))
                     {
                         players[currentPlayer].buildings.Add(node);
                         node.color = currentPlayer;
@@ -164,6 +166,25 @@ public class Game : MonoBehaviour
         }
         return null;
     }
+    bool IsValidPlaceForRoad(EdgeController edge)
+    {
+        if (edge.color != PlayerColor.None)
+            return false;
+        foreach (var node in edge.nodes)
+        {
+            if (node.color == currentPlayer)
+                return true;
+            else
+            {
+                foreach (var neighborEdge in node.edges)
+                {
+                    if (neighborEdge.color == currentPlayer)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
     bool PlaceRoad(Collider2D collider)
     {
         if (players[currentPlayer].roadsLeft == 0)
@@ -172,7 +193,7 @@ public class Game : MonoBehaviour
         {
             if (collider.gameObject == edge.gameObject)
             {
-                if (edge.color == PlayerColor.None)
+                if (IsValidPlaceForRoad(edge))
                 {
                     players[currentPlayer].roads.Add(edge);
                     edge.color = currentPlayer;
