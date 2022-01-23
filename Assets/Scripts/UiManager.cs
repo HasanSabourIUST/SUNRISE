@@ -9,10 +9,12 @@ public class UiManager : MonoBehaviour
     public Text playerTurnText;
     public Text promptText;
     public Text[] resourcesTexts;
+    public Text[] devCardTexts;
     public Button actionButton;
     public Button settlementButton;
     public Button cityButton;
     public Button roadButton;
+    public Button devCardButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,7 @@ public class UiManager : MonoBehaviour
             settlementButton.interactable = false;
             cityButton.interactable = false;
             roadButton.interactable = false;
+            devCardButton.interactable = false;
             if (game.state == Game.State.PlaceSettlement)
                 promptText.text = "Place your 1st settlement";
             else if (game.state == Game.State.PlaceRoad)
@@ -45,6 +48,7 @@ public class UiManager : MonoBehaviour
             settlementButton.interactable = game.players[game.currentPlayer].CanBuySettlement();
             cityButton.interactable = game.players[game.currentPlayer].CanBuyCity();
             roadButton.interactable = game.players[game.currentPlayer].CanBuyRoad();
+            devCardButton.interactable = game.players[game.currentPlayer].CanBuyDevCard() && (game.GetRemainingDevCards().Count >= 1);
             settlementButton.GetComponentInChildren<Text>().text = "Buy Settlement: "
                 + game.players[game.currentPlayer].buildingsLeft[Game.BuildingType.Settlement];
             cityButton.GetComponentInChildren<Text>().text = "Buy City: "
@@ -85,5 +89,7 @@ public class UiManager : MonoBehaviour
         var player = game.players[game.currentPlayer];
         foreach (var resourceType in player.resources.Keys)
             resourcesTexts[(int)resourceType].text = player.resources[resourceType].ToString();
+        foreach (var devCard in player.devCards.Keys)
+            devCardTexts[(int)devCard].text = player.GetDevCardCount(devCard).ToString();
     }
 }

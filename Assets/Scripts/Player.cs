@@ -12,7 +12,9 @@ public class Player
     public int roadsLeft;
     public List<NodeController> buildings;
     public List<EdgeController> roads;
+    public List<DevCardType> reservedDevCards;
     public int victoryPoints;
+    public bool usedDevCard;
     public bool CanBuyRoad()
     {
         return roadsLeft >= 1
@@ -32,6 +34,12 @@ public class Player
         return buildingsLeft[BuildingType.City] >= 1
             && resources[ResourceType.Wheat] >= 2
             && resources[ResourceType.Ore] >= 3;
+    }
+    public bool CanBuyDevCard()
+    {
+        return resources[ResourceType.Wheat] >= 1
+            && resources[ResourceType.Sheep] >= 1
+            && resources[ResourceType.Ore] >= 1;
     }
     public void BuyRoad()
     {
@@ -53,9 +61,38 @@ public class Player
         resources[ResourceType.Wheat] -= 2;
         resources[ResourceType.Ore] -= 3;
     }
+    public void BuyDevCard(DevCardType devCard)
+    {
+        resources[ResourceType.Wheat] -= 1;
+        resources[ResourceType.Sheep] -= 1;
+        resources[ResourceType.Ore] -= 1;
+        if (devCard == DevCardType.VP)
+        {
+            devCards[devCard] += 1;
+            victoryPoints += 1;
+        }
+        else
+        {
+            reservedDevCards.Add(devCard);
+        }
+    }
+    public int GetDevCardCount(DevCardType devCard)
+    {
+        return devCards[devCard] + reservedDevCards.FindAll(card => card == devCard).Count;
+    }
+    public void NextTurn()
+    {
+        foreach (var devCard in reservedDevCards)
+        {
+            devCards[devCard] += 1;
+            usedDevCard = false;
+        }
+        reservedDevCards.Clear();
+    }
     public Player(PlayerColor color)
     {
         this.color = color;
+        reservedDevCards = new List<DevCardType>();
         resources = new Dictionary<ResourceType, int>()
         {
             { ResourceType.Brick, 0 },

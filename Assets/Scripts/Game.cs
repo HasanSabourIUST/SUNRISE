@@ -205,6 +205,16 @@ public class Game : MonoBehaviour
         }
         return false;
     }
+    public List<DevCardType> GetRemainingDevCards()
+    {
+        return devCards.Where(pair => pair.Value >= 1).Select(pair => pair.Key).ToList();
+    }
+    public void BuyDevCard()
+    {
+        var remainingDevCards = GetRemainingDevCards();
+        DevCardType devCard = remainingDevCards[Random.Range(0, remainingDevCards.Count)];
+        players[currentPlayer].BuyDevCard(devCard);
+    }
     void StealFrom(PlayerColor player)
     {
         var resources = players[player].resources.Where(resource => resource.Value > 0).Select(pair => pair.Key).ToList();
@@ -295,6 +305,7 @@ public class Game : MonoBehaviour
             Roll();
         else if (state == State.Wait)
         {
+            players[currentPlayer].NextTurn();
             if (GetNextPlayer() == PlayerColor.None)
                 currentPlayer = PlayerColor.Orange;
             else
