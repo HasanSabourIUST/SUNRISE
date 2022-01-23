@@ -306,6 +306,8 @@ public class Game : MonoBehaviour
     }
     public void RunAction()
     {
+        if (phase == GamePhase.Finished)
+            Application.Quit();
         if (state == State.Roll)
             Roll();
         else if (state == State.Wait)

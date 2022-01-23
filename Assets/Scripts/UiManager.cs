@@ -89,6 +89,7 @@ public class UiManager : MonoBehaviour
         else if (game.phase == Game.GamePhase.Finished)
         {
             promptText.text = game.currentPlayer.ToString() + " Won!";
+            actionButton.GetComponentInChildren<Text>().text = "Quit";
         }
         var player = game.players[game.currentPlayer];
         foreach (var resourceType in player.resources.Keys)
