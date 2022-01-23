@@ -2909,7 +2909,7 @@ MonoBehaviour:
   - {fileID: 1227674408}
   - {fileID: 871554071}
   - {fileID: 1837850761}
-  victoryPointsText: {fileID: 0}
+  victoryPointsText: {fileID: 415384776}
   actionButton: {fileID: 1014211093}
   settlementButton: {fileID: 229604530}
   cityButton: {fileID: 831595588}

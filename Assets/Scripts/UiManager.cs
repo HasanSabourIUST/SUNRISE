@@ -49,10 +49,20 @@ public class UiManager : MonoBehaviour
         {
             actionButton.interactable = true;
             victoryPointsText.text = "VP: " + game.players[game.currentPlayer].victoryPoints;
-            settlementButton.interactable = game.players[game.currentPlayer].CanBuySettlement();
-            cityButton.interactable = game.players[game.currentPlayer].CanBuyCity();
-            roadButton.interactable = game.players[game.currentPlayer].CanBuyRoad();
-            devCardButton.interactable = game.players[game.currentPlayer].CanBuyDevCard() && (game.GetRemainingDevCards().Count >= 1);
+            if (game.state == Game.State.Roll)
+            {
+                settlementButton.interactable = false;
+                cityButton.interactable = false;
+                roadButton.interactable = false;
+                devCardButton.interactable = false;
+            }
+            else
+            {
+                settlementButton.interactable = game.players[game.currentPlayer].CanBuySettlement();
+                cityButton.interactable = game.players[game.currentPlayer].CanBuyCity();
+                roadButton.interactable = game.players[game.currentPlayer].CanBuyRoad();
+                devCardButton.interactable = game.players[game.currentPlayer].CanBuyDevCard() && (game.GetRemainingDevCards().Count >= 1);
+            }
             settlementButton.GetComponentInChildren<Text>().text = "Buy Settlement: "
                 + game.players[game.currentPlayer].buildingsLeft[Game.BuildingType.Settlement];
             cityButton.GetComponentInChildren<Text>().text = "Buy City: "
