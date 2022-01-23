@@ -10,6 +10,7 @@ public class UiManager : MonoBehaviour
     public Text promptText;
     public Text[] resourcesTexts;
     public Text[] devCardTexts;
+    public Text victoryPointsText;
     public Button actionButton;
     public Button settlementButton;
     public Button cityButton;
@@ -27,6 +28,7 @@ public class UiManager : MonoBehaviour
         playerTurnText.text = "Turn: " + game.currentPlayer;
         if (game.phase == Game.GamePhase.Start1)
         {
+            actionButton.interactable = false;
             settlementButton.interactable = false;
             cityButton.interactable = false;
             roadButton.interactable = false;
@@ -45,6 +47,8 @@ public class UiManager : MonoBehaviour
         }
         else if (game.phase == Game.GamePhase.Middle)
         {
+            actionButton.interactable = true;
+            victoryPointsText.text = "VP: " + game.players[game.currentPlayer].victoryPoints;
             settlementButton.interactable = game.players[game.currentPlayer].CanBuySettlement();
             cityButton.interactable = game.players[game.currentPlayer].CanBuyCity();
             roadButton.interactable = game.players[game.currentPlayer].CanBuyRoad();
