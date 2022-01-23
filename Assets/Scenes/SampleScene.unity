@@ -2954,6 +2954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6efef1e0e450b4796f57bf28128634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: 0.9
   tilePrefab: {fileID: 6120231397349256554, guid: d7476f5b380d3944c9dacdd87d8e7e83,
     type: 3}
   nodePrefab: {fileID: 7617038598523097749, guid: 3870411792a82b847b486e235383893b,

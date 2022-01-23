@@ -119,7 +119,7 @@ public class Game : MonoBehaviour
                 break;
             }
         }
-        thief.transform.position = tileWithThief.transform.position + new Vector3(0, 0.5f);
+        thief.transform.position = tileWithThief.transform.position + new Vector3(0, 0.5f) * board.size;
     }
     bool IsValidPlaceForBuilding(NodeController node)
     {
@@ -242,7 +242,7 @@ public class Game : MonoBehaviour
                     StealFrom(victim);
                 }
                 tileWithThief = tile;
-                thief.transform.position = tileWithThief.transform.position + new Vector3(0, 0.5f);
+                thief.transform.position = tileWithThief.transform.position + new Vector3(0, 0.5f) * board.size;
                 return true;
             }
         }
