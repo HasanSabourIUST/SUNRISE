@@ -10,7 +10,7 @@ public class Game : MonoBehaviour
     public enum PlayerColor { None, Orange, Green, Blue, Red }
     public enum ResourceType { Brick, Wheat, Sheep, Wood, Ore, None }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
-    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait, UseKnight, UseMonopoly, UsePlenty }
+    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait, UseKnight, UseMonopoly, UsePlenty, UseRoadBuilding1, UseRoadBuilding2 }
     public enum GamePhase { Start1, Start2, Middle, Finished }
     public ResourceType ResourceFrom(TileType tileType)
     {
@@ -467,6 +467,21 @@ public class Game : MonoBehaviour
                         }
                     }
                 }
+                else if (state == State.UseRoadBuilding1)
+                {
+                    if (PlaceRoad(hit.collider))
+                    {
+                        players[currentPlayer].usedDevCard = true;
+                        state = State.UseRoadBuilding2;
+                    }
+                }
+                else if (state == State.UseRoadBuilding2)
+                {
+                    if (PlaceRoad(hit.collider))
+                    {
+                        state = State.Wait;
+                    }
+                }
                 else if (state == State.Wait)
                 {
                     if (hit.collider.gameObject == costsCard)
@@ -496,6 +511,10 @@ public class Game : MonoBehaviour
                         {
                             state = State.UsePlenty;
                         }
+                        else if (hit.collider.gameObject == roadCard && players[currentPlayer].devCards[DevCardType.Roadbuilding] >= 1)
+                        {
+                            state = State.UseRoadBuilding1;
+                        }
                     }
                 }
             }
@@ -504,7 +523,7 @@ public class Game : MonoBehaviour
         {
             if (phase == GamePhase.Middle)
             {
-                if (state != State.Roll && state != State.PlaceThief)
+                if (state != State.Roll && state != State.PlaceThief && state != State.UseRoadBuilding2)
                 {
                     state = State.Wait;
                 }

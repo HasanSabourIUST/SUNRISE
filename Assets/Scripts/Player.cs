@@ -85,8 +85,8 @@ public class Player
         foreach (var devCard in reservedDevCards)
         {
             devCards[devCard] += 1;
-            usedDevCard = false;
         }
+        usedDevCard = false;
         reservedDevCards.Clear();
     }
     public Player(PlayerColor color)

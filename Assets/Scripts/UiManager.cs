@@ -57,15 +57,15 @@ public class UiManager : MonoBehaviour
                 + game.players[game.currentPlayer].roadsLeft;
             if (game.state == Game.State.PlaceSettlement)
             {
-                promptText.text = "Place settlement.\n Right click to cancel";
+                promptText.text = "Place the settlement.\nRight click to cancel";
             }
             else if (game.state == Game.State.PlaceCity)
             {
-                promptText.text = "Place city.\n Right click to cancel";
+                promptText.text = "Place the city.\nRight click to cancel";
             }
             if (game.state == Game.State.PlaceRoad)
             {
-                promptText.text = "Place road.\n Right click to cancel";
+                promptText.text = "Place the road.\nRight click to cancel";
             }
             else if (game.state == Game.State.Roll)
             {
@@ -83,15 +83,23 @@ public class UiManager : MonoBehaviour
             }
             else if (game.state == Game.State.UseKnight)
             {
-                promptText.text = "Place the thief.\n Right click to cancel";
+                promptText.text = "Place the thief.\nRight click to cancel";
             }
             else if (game.state == Game.State.UseMonopoly)
             {
-                promptText.text = "Choose a resource.\n Right click to cancel";
+                promptText.text = "Choose a resource.\nRight click to cancel";
             }
             else if (game.state == Game.State.UsePlenty)
             {
-                promptText.text = "Choose a resource.\n Right click to cancel";
+                promptText.text = "Choose a resource.\nRight click to cancel";
+            }
+            else if (game.state == Game.State.UseRoadBuilding1)
+            {
+                promptText.text = "Place the 1st road.\nRight click to cancel";
+            }
+            else if (game.state == Game.State.UseRoadBuilding2)
+            {
+                promptText.text = "Place the 2nd road.";
             }
         }
         else if (game.phase == Game.GamePhase.Finished)
