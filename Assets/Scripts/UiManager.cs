@@ -89,6 +89,10 @@ public class UiManager : MonoBehaviour
             {
                 promptText.text = "Choose a resource.\n Right click to cancel";
             }
+            else if (game.state == Game.State.UsePlenty)
+            {
+                promptText.text = "Choose a resource.\n Right click to cancel";
+            }
         }
         else if (game.phase == Game.GamePhase.Finished)
         {

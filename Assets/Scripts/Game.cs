@@ -10,7 +10,7 @@ public class Game : MonoBehaviour
     public enum PlayerColor { None, Orange, Green, Blue, Red }
     public enum ResourceType { Brick, Wheat, Sheep, Wood, Ore, None }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
-    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait, UseKnight, UseMonopoly }
+    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait, UseKnight, UseMonopoly, UsePlenty }
     public enum GamePhase { Start1, Start2, Middle, Finished }
     public ResourceType ResourceFrom(TileType tileType)
     {
@@ -450,6 +450,23 @@ public class Game : MonoBehaviour
                         }
                     }
                 }
+                else if (state == State.UsePlenty)
+                {
+                    foreach (var resource in resources.Keys)
+                    {
+                        if (hit.collider.gameObject == resourceCards[(int)resource])
+                        {
+                            if (resources[resource] >= 2)
+                            {
+                                state = State.Wait;
+                                players[currentPlayer].usedDevCard = true;
+                                players[currentPlayer].devCards[DevCardType.Plenty] -= 1;
+                                resources[resource] -= 2;
+                                players[currentPlayer].resources[resource] += 2;
+                            }
+                        }
+                    }
+                }
                 else if (state == State.Wait)
                 {
                     if (hit.collider.gameObject == costsCard)
@@ -474,6 +491,10 @@ public class Game : MonoBehaviour
                         else if (hit.collider.gameObject == monopolyCard && players[currentPlayer].devCards[DevCardType.Monopoly] >= 1)
                         {
                             state = State.UseMonopoly;
+                        }
+                        else if (hit.collider.gameObject == plentyCard && players[currentPlayer].devCards[DevCardType.Plenty] >= 1)
+                        {
+                            state = State.UsePlenty;
                         }
                     }
                 }
