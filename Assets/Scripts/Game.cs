@@ -10,7 +10,7 @@ public class Game : MonoBehaviour
     public enum PlayerColor { None, Orange, Green, Blue, Red }
     public enum ResourceType { Brick, Wheat, Sheep, Wood, Ore, None }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
-    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait, UseKnight }
+    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait, UseKnight, UseMonopoly }
     public enum GamePhase { Start1, Start2, Middle, Finished }
     public ResourceType ResourceFrom(TileType tileType)
     {
@@ -429,6 +429,25 @@ public class Game : MonoBehaviour
                     {
                         state = State.Wait;
                         players[currentPlayer].usedDevCard = true;
+                        players[currentPlayer].devCards[DevCardType.Knight] -= 1;
+                    }
+                }
+                else if (state == State.UseMonopoly)
+                {
+                    foreach (var resource in resources.Keys)
+                    {
+                        if (hit.collider.gameObject == resourceCards[(int)resource])
+                        {
+                            state = State.Wait;
+                            players[currentPlayer].usedDevCard = true;
+                            players[currentPlayer].devCards[DevCardType.Monopoly] -= 1;
+                            foreach (var player in players.Values)
+                            {
+                                player.resources[resource] = 0;
+                            }
+                            resources[resource] = 0;
+                            players[currentPlayer].resources[resource] = 19;
+                        }
                     }
                 }
                 else if (state == State.Wait)
@@ -451,6 +470,10 @@ public class Game : MonoBehaviour
                         if (hit.collider.gameObject == knightCard && players[currentPlayer].devCards[DevCardType.Knight] >= 1)
                         {
                             state = State.UseKnight;
+                        }
+                        else if (hit.collider.gameObject == monopolyCard && players[currentPlayer].devCards[DevCardType.Monopoly] >= 1)
+                        {
+                            state = State.UseMonopoly;
                         }
                     }
                 }
