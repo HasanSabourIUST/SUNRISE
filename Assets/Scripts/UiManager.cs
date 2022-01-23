@@ -81,6 +81,10 @@ public class UiManager : MonoBehaviour
                 promptText.text = "";
                 actionButton.GetComponentInChildren<Text>().text = "End Turn";
             }
+            else if (game.state == Game.State.UseKnight)
+            {
+                promptText.text = "Place the thief.\n Right click to cancel";
+            }
         }
         else if (game.phase == Game.GamePhase.Finished)
         {

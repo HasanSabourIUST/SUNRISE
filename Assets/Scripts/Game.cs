@@ -10,7 +10,7 @@ public class Game : MonoBehaviour
     public enum PlayerColor { None, Orange, Green, Blue, Red }
     public enum ResourceType { Brick, Wheat, Sheep, Wood, Ore, None }
     public enum DevCardType { Plenty, Monopoly, Roadbuilding, Knight, VP }
-    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait }
+    public enum State { PlaceSettlement, PlaceCity, PlaceRoad, Roll, PlaceThief, Wait, UseKnight }
     public enum GamePhase { Start1, Start2, Middle, Finished }
     public ResourceType ResourceFrom(TileType tileType)
     {
@@ -71,6 +71,11 @@ public class Game : MonoBehaviour
     public State state;
     public GamePhase phase;
     public GameObject costsCard;
+    public GameObject plentyCard;
+    public GameObject monopolyCard;
+    public GameObject roadCard;
+    public GameObject knightCard;
+    public GameObject[] resourceCards;
     bool showCosts;
     // Start is called before the first frame update
     void Start()
@@ -416,6 +421,14 @@ public class Game : MonoBehaviour
                         state = State.Wait;
                     }
                 }
+                else if (state == State.UseKnight)
+                {
+                    if (PlaceThief(hit.collider))
+                    {
+                        state = State.Wait;
+                        players[currentPlayer].usedDevCard = true;
+                    }
+                }
                 else if (state == State.Wait)
                 {
                     if (hit.collider.gameObject == costsCard)
@@ -431,6 +444,13 @@ public class Game : MonoBehaviour
                             costsCard.transform.position += new Vector3(0, 5);
                         }
                     }
+                    else if (!players[currentPlayer].usedDevCard)
+                    {
+                        if (hit.collider.gameObject == knightCard && players[currentPlayer].devCards[DevCardType.Knight] >= 1)
+                        {
+                            state = State.UseKnight;
+                        }
+                    }
                 }
             }
         }
@@ -438,7 +458,7 @@ public class Game : MonoBehaviour
         {
             if (phase == GamePhase.Middle)
             {
-                if (state == State.PlaceSettlement || state == State.PlaceCity || state == State.PlaceRoad)
+                if (state != State.Roll && state != State.PlaceThief)
                 {
                     state = State.Wait;
                 }
@@ -446,7 +466,7 @@ public class Game : MonoBehaviour
         }
         if (players[currentPlayer].victoryPoints >= 10)
         {
-
+            phase = GamePhase.Finished;
         }
     }
 }
